@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private int isMovingHash;
 
     //CONST VALUES
-    private const float ACCELERATION = 10f;
+    private const float ACCELERATION = 20f;
     private const float MAX_SPEED = 5f;
-    private const float FRICTION = 10f;
-    private const float ROTATION_SPEED = 100f;
+    private const float FRICTION = 20f;
+    private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
     private const float GRAVITY = 2f;
 
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
         //NON FUNZIONA
         if(Input.GetButton("Jump") && controller.isGrounded){
-            transform.position = new Vector3(0,JUMP_POWER,0);
+            verticalVelocity = JUMP_POWER;
         }
 
         //GRAVITY
@@ -68,6 +68,6 @@ public class PlayerMovement : MonoBehaviour
         //transform.forward = input;
 
         Quaternion toRotation = Quaternion.LookRotation(input, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
     }
 }
