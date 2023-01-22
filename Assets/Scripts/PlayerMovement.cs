@@ -8,9 +8,11 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller = null;
     private Animator animator = null;
     private int isMovingHash;
+    private int isJumpingHash;
+    private int isRunningHash;
 
     //CONST VALUES
-    private const float ACCELERATION = 20f;
+    private const float ACCELERATION = 50f;
     private const float MAX_SPEED = 5f;
     private const float FRICTION = 20f;
     private const float ROTATION_SPEED = 15f;
@@ -30,31 +32,47 @@ public class PlayerMovement : MonoBehaviour
         
         //Useful to increase performances
         isMovingHash = Animator.StringToHash("IsMoving");
+        isJumpingHash = Animator.StringToHash("IsJumping");
+        isRunningHash = Animator.StringToHash("IsRunning");
     }
 
     // Update is called once per frame
     void Update()
     {
         bool isMoving = animator.GetBool(isMovingHash);
+        bool isJumping = animator.GetBool(isJumpingHash);
+        bool isRunning = animator.GetBool(isRunningHash);
+
+        //if(isJumping == true && controller.isGrounded == true){
+        //    animator.SetBool("IsJumping", false);
+        //}
+
         input.x = Input.GetAxis("Horizontal");
         input.z = Input.GetAxis("Vertical");
         input = Quaternion.Euler(new Vector3(0,45,0))*input;
         input = input.normalized;
         if(input != Vector3.zero){
-            if(isMoving == false){
+            if(!Input.GetButton("Sprint") && isMoving == false){
                 animator.SetBool("IsMoving", true);
+                animator.SetBool("IsRunning", false);
             }
-            velocity += new Vector2(input.x, input.z)*ACCELERATION*Time.deltaTime;
-            velocity = Vector2.ClampMagnitude(velocity, MAX_SPEED);
+            if(Input.GetButton("Sprint") && isRunning == false){
+                animator.SetBool("IsRunning", true);
+                animator.SetBool("IsMoving", false);
+            }
+            velocity += Input.GetButton("Sprint") ? new Vector2(input.x, input.z)*ACCELERATION*2f*Time.deltaTime : new Vector2(input.x, input.z)*ACCELERATION*Time.deltaTime;
+            velocity = Input.GetButton("Sprint") ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
             SetCorrectPlayerOrientation();
         }else{
             animator.SetBool("IsMoving", false);
+            animator.SetBool("IsRunning", false);
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
 
 
         //NON FUNZIONA
         if(Input.GetButton("Jump") && controller.isGrounded){
+            //animator.SetBool("IsJumping", true);
             verticalVelocity = JUMP_POWER;
         }
 
