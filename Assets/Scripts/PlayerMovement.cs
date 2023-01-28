@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController controller = null;
-    private Animator animator = null;
-    private int isMovingHash;
-    private int isJumpingHash;
-    private int isRunningHash;
+    private PlayerInputController inputController;
 
     //CONST VALUES
     private const float ACCELERATION = 50f;
@@ -22,50 +20,83 @@ public class PlayerMovement : MonoBehaviour
     //VETTORI
     private Vector2 velocity = new Vector2();
     private float verticalVelocity = 0;
+
+    //SERVE PER DECODIFICARE GLI  INPUT DAL NUOVO INPUTSYTSYEM
+    private Vector2 inputDecoder;
     private Vector3 input = new Vector3();
 
+
+    //STATUS BOOL
+    public struct PlayerStatus{
+        public bool isMoving;
+        public bool isRunning;
+
+        public PlayerStatus(bool initialStatus){
+            isMoving = initialStatus;
+            isRunning = initialStatus;
+        }
+    };
+    private PlayerStatus status;
+
+
     // Start is called before the first frame update
+
+    void Awake(){
+
+        controller = Transform.FindObjectOfType<CharacterController>();        
+        inputController = new PlayerInputController();
+        status = new PlayerStatus(false);
+
+        inputController.CharacterInputController.Move.started += OnMovement;
+        inputController.CharacterInputController.Move.canceled += OnMovement;
+        //performed is needed for controllers sticks
+        inputController.CharacterInputController.Move.performed += OnMovement;
+        inputController.CharacterInputController.Run.started += OnRun;
+        inputController.CharacterInputController.Run.canceled += OnRun;
+
+
+
+
+    }
+
+    void OnMovement(InputAction.CallbackContext context){
+        inputDecoder = context.ReadValue<Vector2>();
+
+        input.x = inputDecoder.x;
+        input.z = inputDecoder.y;
+        input = Quaternion.Euler(new Vector3(0,45,0))*input;
+
+        status.isMoving = inputDecoder.x != 0 || inputDecoder.y != 0;
+    }
+
+    void OnRun(InputAction.CallbackContext context){
+        status.isRunning = context.ReadValueAsButton();
+    }
+
+    void OnEnable(){
+        inputController.CharacterInputController.Enable();
+    }
+
+    void OnDisable(){
+        inputController.CharacterInputController.Disable();
+    }
+
     void Start()
     {
-        controller = Transform.FindObjectOfType<CharacterController>();
-        animator = Transform.FindObjectOfType<Animator>();
-        
-        //Useful to increase performances
-        isMovingHash = Animator.StringToHash("IsMoving");
-        isJumpingHash = Animator.StringToHash("IsJumping");
-        isRunningHash = Animator.StringToHash("IsRunning");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool isMoving = animator.GetBool(isMovingHash);
-        bool isJumping = animator.GetBool(isJumpingHash);
-        bool isRunning = animator.GetBool(isRunningHash);
 
-        //if(isJumping == true && controller.isGrounded == true){
-        //    animator.SetBool("IsJumping", false);
-        //}
-
-        input.x = Input.GetAxis("Horizontal");
-        input.z = Input.GetAxis("Vertical");
-        input = Quaternion.Euler(new Vector3(0,45,0))*input;
-        input = input.normalized;
         if(input != Vector3.zero){
-            if(!Input.GetButton("Sprint") && isMoving == false){
-                animator.SetBool("IsMoving", true);
-                animator.SetBool("IsRunning", false);
-            }
-            if(Input.GetButton("Sprint") && isRunning == false){
-                animator.SetBool("IsRunning", true);
-                animator.SetBool("IsMoving", false);
-            }
-            velocity += Input.GetButton("Sprint") ? new Vector2(input.x, input.z)*ACCELERATION*2f*Time.deltaTime : new Vector2(input.x, input.z)*ACCELERATION*Time.deltaTime;
-            velocity = Input.GetButton("Sprint") ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
-            SetCorrectPlayerOrientation();
+
+            velocity += status.isRunning ? new Vector2(input.x, input.z)*ACCELERATION*2f*Time.deltaTime : new Vector2(input.x, input.z)*ACCELERATION*Time.deltaTime;
+            velocity = status.isRunning ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
+            HandlePlayerOrientation();
         }else{
-            animator.SetBool("IsMoving", false);
-            animator.SetBool("IsRunning", false);
+
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
 
@@ -81,11 +112,19 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(new Vector3(velocity.x, verticalVelocity, velocity.y)*Time.deltaTime);
     }
 
-    void SetCorrectPlayerOrientation(){
+    void HandlePlayerOrientation(){
         //Faster method
         //transform.forward = input;
 
         Quaternion toRotation = Quaternion.LookRotation(input, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
+    }
+
+    public Vector3 GetInput(){
+        return input;
+    }
+
+    public PlayerStatus GetStatus(){
+        return status;
     }
 }
