@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
     private const float GRAVITY = 1f;
+
+    private float DODGE_DURATION = 0.75f;
+    private float DODGE_CD = 1f;
         
     //VETTORI
     private Vector2 velocity = new Vector2();
@@ -58,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
         //run
         inputController.CharacterInputController.Run.started += OnRun;
         inputController.CharacterInputController.Run.canceled += OnRun;
+
+        //dodge
+        inputController.CharacterInputController.Dodge.started += OnDodge;
     }
 
 
@@ -84,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
         //GRAVITA'
         verticalVelocity -= GRAVITY*Time.deltaTime;
-        controller.Move(new Vector3(velocity.x, verticalVelocity, velocity.y)*Time.deltaTime);
+        if(!status.isDodging) controller.Move(new Vector3(velocity.x, verticalVelocity, velocity.y)*Time.deltaTime);
     }
 
 
@@ -107,6 +113,29 @@ public class PlayerMovement : MonoBehaviour
 
     void OnRun(InputAction.CallbackContext context){
         status.isRunning = context.ReadValueAsButton();
+    }
+
+    void OnDodge(InputAction.CallbackContext context){
+        if(!status.isDodging && input != Vector3.zero){
+            StartCoroutine(DodgeAction());
+        }
+    }
+
+    IEnumerator DodgeAction(){
+        status.isDodging = true;
+        float timer = DODGE_DURATION+0.15f;
+        FindObjectOfType<Animator>().SetTrigger("IsDodging");
+        while(timer > 0){
+            controller.Move(new Vector3(input.x, 0, input.z)*Time.deltaTime*7.5f);
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+        //check per input dal player
+        input.x = inputDecoder.x;
+        input.z = inputDecoder.y;
+        input = Quaternion.Euler(new Vector3(0,45,0))*input;
+
+        status.isDodging = false;
     }
 
     void OnEnable(){
