@@ -37,10 +37,12 @@ public class PlayerAnimationHandler : MonoBehaviour
         bool running = animator.GetBool(isRunningHash);
 
         if(input != Vector3.zero){
-            if(!playerMovement.GetStatus().isRunning && moving == false){
+            //Non corre e non dodgia - Cammina
+            if(!playerMovement.GetStatus().isRunning && !playerMovement.GetStatus().isDodging && moving == false){
                 animator.SetBool("IsMoving", true);
                 animator.SetBool("IsRunning", false);
             }
+            //Se sta correndo
             if(playerMovement.GetStatus().isRunning && running == false){
                 animator.SetBool("IsRunning", true);
                 animator.SetBool("IsMoving", false);
@@ -49,5 +51,16 @@ public class PlayerAnimationHandler : MonoBehaviour
             animator.SetBool("IsMoving", false);
             animator.SetBool("IsRunning", false);
         }        
+    }
+
+    float GetAnimationDuration(string animationName){
+        RuntimeAnimatorController ac = FindObjectOfType<RuntimeAnimatorController>();
+        foreach (AnimationClip clip in ac.animationClips)
+        {
+            if(clip.name == animationName){
+                return clip.length;
+            }
+        }
+        return 0;
     }
 }
