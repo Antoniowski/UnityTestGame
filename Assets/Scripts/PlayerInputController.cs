@@ -137,7 +137,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""name"": """",
                     ""id"": ""0259d8df-986d-4fb1-9f62-5eae83e1a510"",
                     ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(duration=0.25)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
