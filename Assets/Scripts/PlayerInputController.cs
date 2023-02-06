@@ -53,6 +53,15 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""99c252e4-be3c-4673-92c1-4579297c28d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,28 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cbd85c8a-cbb6-4a8d-aafc-d15efe206b5c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec8f7571-b6c3-4e18-aeeb-48e948de91cb"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +207,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         m_CharacterInputController_Move = m_CharacterInputController.FindAction("Move", throwIfNotFound: true);
         m_CharacterInputController_Run = m_CharacterInputController.FindAction("Run", throwIfNotFound: true);
         m_CharacterInputController_Dodge = m_CharacterInputController.FindAction("Dodge", throwIfNotFound: true);
+        m_CharacterInputController_Interact = m_CharacterInputController.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +270,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
     private readonly InputAction m_CharacterInputController_Move;
     private readonly InputAction m_CharacterInputController_Run;
     private readonly InputAction m_CharacterInputController_Dodge;
+    private readonly InputAction m_CharacterInputController_Interact;
     public struct CharacterInputControllerActions
     {
         private @PlayerInputController m_Wrapper;
@@ -245,6 +278,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         public InputAction @Move => m_Wrapper.m_CharacterInputController_Move;
         public InputAction @Run => m_Wrapper.m_CharacterInputController_Run;
         public InputAction @Dodge => m_Wrapper.m_CharacterInputController_Dodge;
+        public InputAction @Interact => m_Wrapper.m_CharacterInputController_Interact;
         public InputActionMap Get() { return m_Wrapper.m_CharacterInputController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +297,9 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @Dodge.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDodge;
+                @Interact.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_CharacterInputControllerActionsCallbackInterface = instance;
             if (instance != null)
@@ -276,6 +313,9 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -285,5 +325,6 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         void OnMove(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

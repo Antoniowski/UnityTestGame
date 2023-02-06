@@ -168,6 +168,8 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
     }
 
+//GET FUNCTIONS
+
     public Vector3 GetInput(){
         return input;
     }
@@ -175,4 +177,10 @@ public class PlayerMovement : MonoBehaviour
     public PlayerStatus GetStatus(){
         return status;
     }
+
+    public PlayerInputController GetInputController(){
+        return inputController;
+    }
+
+//SET FUNCTIONS
 }
