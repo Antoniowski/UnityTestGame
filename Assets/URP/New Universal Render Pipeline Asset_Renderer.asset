@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3648636bff6d6e488e56745d97e5a0c, type: 3}
   m_Name: PixelPassFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 550
     screenHeight: 400
