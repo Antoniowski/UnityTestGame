@@ -17,8 +17,11 @@ public class PlayerMovement : MonoBehaviour
     private const float JUMP_POWER = 10f;
     private const float GRAVITY = 1f;
 
+//DODGE VARIABLES
     private float DODGE_DURATION = 0.75f;
     private float DODGE_CD = 1f;
+    //AnimationCurve permette ci modificare dinamicamente dei valori in funzione del tempo
+    [SerializeField] private AnimationCurve dodgeSpeedCurve;
         
     //VETTORI
     private Vector2 velocity = new Vector2();
@@ -59,11 +62,11 @@ public class PlayerMovement : MonoBehaviour
         inputController.CharacterInputController.Move.performed += OnMovement;
 
         //run
-        inputController.CharacterInputController.Run.started += OnRun;
+        inputController.CharacterInputController.Run.performed += OnRun;
         inputController.CharacterInputController.Run.canceled += OnRun;
 
         //dodge
-        inputController.CharacterInputController.Dodge.started += OnDodge;
+        inputController.CharacterInputController.Dodge.performed += OnDodge;
     }
 
 
@@ -123,11 +126,24 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator DodgeAction(){
         status.isDodging = true;
+        //sostituire con effettiva durata dell'animazione
         float timer = DODGE_DURATION+0.15f;
+
+        float rollTime = 0f;
+        float rollSpeed = dodgeSpeedCurve.Evaluate(rollTime);
+
+        //Dodge direction
+        Quaternion toRotation = Quaternion.LookRotation(new Vector3(input.x, 0, input.z), Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation,1);
+
+        //Cerca Animator per iniziare l'animazione
         FindObjectOfType<Animator>().SetTrigger("IsDodging");
         while(timer > 0){
-            controller.Move(new Vector3(input.x, 0, input.z)*Time.deltaTime*7.5f);
             timer -= Time.deltaTime;
+            rollTime += Time.deltaTime;
+            rollSpeed = dodgeSpeedCurve.Evaluate(rollTime);
+            controller.Move(new Vector3(input.x, 0, input.z)*Time.deltaTime*rollSpeed);
+
             yield return null;
         }
         //check per input dal player
