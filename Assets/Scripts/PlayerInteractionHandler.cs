@@ -11,6 +11,7 @@ public class PlayerInteractionHandler : MonoBehaviour
     private PlayerInputController playerInputController;
     private PlayerMovement playerStatus;
     private Animator animator;
+    private string equippedWeapon;
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,7 +30,7 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        print(playerStatus.GetStatus().equipped);
     }
 
     private void OnTriggerStay(Collider other)
@@ -38,23 +39,23 @@ public class PlayerInteractionHandler : MonoBehaviour
             //Check per settarlo solo una volta
             if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState() != true) other.gameObject.GetComponent<WeaponInfo>().SetPickableState(true);
             //Azione fatta una sola volta
-            if(playerInputController.CharacterInputController.Interact.IsPressed()){
-                if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState() && playerStatus.GetStatus().equipped != true){
-                    other.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
-                    playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.EQUIPPED, true);
-                    other.gameObject.GetComponent<BoxCollider>().enabled = false; //Per evitare altri trigger
-                    other.gameObject.GetComponent<BoxCollider>().enabled = false; //Utile per ottimizzare le prestazioni
-                    Destroy(other.gameObject.GetComponent<Rigidbody>());
+            if(playerInputController.CharacterInputController.Interact.IsPressed())
+            {
+                if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState() && playerStatus.GetStatus().equipped != true && playerStatus.GetStatus().isPicking != true)
+                {
+                    playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_PICKING, true);
+                    PickUpweapon(other);
+                    StartCoroutine(PickingStatusCooldown());
 
-                    //PER AGGIUNGERLO ALLA MANO
-                    //other.transform.forward = rightHand.transform.forward;
-                    other.gameObject.transform.parent = rightHand.transform;
-                    other.gameObject.transform.position = rightHand.transform.position;
+                }else if(other.gameObject.GetComponent<WeaponInfo>().GetPickableState() && playerStatus.GetStatus().equipped == true && playerStatus.GetStatus().isPicking != true) //Già ha un'arma equipaggiata
+                {
+                    playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_PICKING, true);
+                    //Droppare l'arma già equipaggiata
+                    //Aggiungere un rigidbody e riattivare il box collider
+                    DropWeapon(other);
+                    PickUpweapon(other);
+                    StartCoroutine(PickingStatusCooldown());
                     
-                    //Aggiustamenti
-                    other.gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-90));
-                    other.gameObject.transform.localPosition = new Vector3(0,0,-1f);
-
                 } 
             }
         }
@@ -65,6 +66,40 @@ public class PlayerInteractionHandler : MonoBehaviour
         if(other.gameObject.tag == "Weapon"){
             other.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
         }
+    }
+
+
+
+    private void PickUpweapon(Collider other)
+    {
+        other.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
+        playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.EQUIPPED, true);
+        other.gameObject.GetComponent<BoxCollider>().enabled = false; //Per evitare altri trigger
+        other.gameObject.GetComponent<BoxCollider>().enabled = false; //Utile per ottimizzare le prestazioni
+        Destroy(other.gameObject.GetComponent<Rigidbody>());
+
+        //PER AGGIUNGERLO ALLA MANO
+        //other.transform.forward = rightHand.transform.forward;
+        other.gameObject.transform.parent = rightHand.transform;
+        other.gameObject.transform.position = rightHand.transform.position;
+        
+        //Aggiustamenti
+        other.gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-90));
+        other.gameObject.transform.localPosition = new Vector3(0,0,-1f);
+        equippedWeapon = other.gameObject.name;
+    }
+
+    private void DropWeapon(Collider other)
+    {
+        Transform oldWeapon = rightHand.transform.Find(equippedWeapon); //rimosso dalla mano
+        oldWeapon.parent = null;
+        oldWeapon.gameObject.AddComponent<Rigidbody>();
+        oldWeapon.gameObject.GetComponent<BoxCollider>().enabled = true;
+    }
+
+    IEnumerator PickingStatusCooldown(){
+        yield return new WaitForSeconds(2);
+        playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_PICKING, false);
     }
 
 
