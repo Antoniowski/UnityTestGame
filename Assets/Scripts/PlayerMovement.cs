@@ -36,7 +36,8 @@ public class PlayerMovement : MonoBehaviour
         IS_MOVING = 0,
         IS_RUNNING = 1,
         IS_DODGING = 2,
-        EQUIPPED = 3
+        EQUIPPED = 3,
+        IS_PICKING = 4
 
     }
     //STATUS BOOL
@@ -45,12 +46,14 @@ public class PlayerMovement : MonoBehaviour
         public bool isRunning;
         public bool isDodging;
         public bool equipped;
+        public bool isPicking;
 
         public PlayerStatus(bool initialStatus){
             isMoving = initialStatus;
             isRunning = initialStatus;
             isDodging = initialStatus;
             equipped = initialStatus;
+            isPicking = initialStatus;
         }
     };
     private PlayerStatus status;
@@ -211,6 +214,10 @@ public class PlayerMovement : MonoBehaviour
                 status.equipped = newValue;
                 break;
             
+            case PlayerStatusEnum.IS_PICKING:
+                status.isPicking = newValue;
+                break;
+                
             default:
                 print("Nessuno stato trovato da cambiare");
                 break;
