@@ -9,15 +9,16 @@ public class PlayerInteractionHandler : MonoBehaviour
     //Sarabbe utile definire dei singleton per gli arti e le giunture
     private GameObject rightHand;
     private PlayerInputController playerInputController;
+    private PlayerMovement playerStatus;
     private Animator animator;
     // Start is called before the first frame update
     void Awake()
     {
         rightHand = GameObject.FindGameObjectWithTag("RightHand");
+        
         //Riferimento al playerinputcontroller del movimento. E' preferibile creare una classe per gli inpout ad hoc
         playerInputController = FindObjectOfType<PlayerMovement>().GetInputController(); 
-       //playerInputController.CharacterInputController.Interact.canceled += OnInteraction;
-
+        playerStatus = GetComponentInChildren<PlayerMovement>();
         animator = FindObjectOfType<Animator>();
     }
 
@@ -38,9 +39,9 @@ public class PlayerInteractionHandler : MonoBehaviour
             if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState() != true) other.gameObject.GetComponent<WeaponInfo>().SetPickableState(true);
             //Azione fatta una sola volta
             if(playerInputController.CharacterInputController.Interact.IsPressed()){
-                print("Preso");
-                if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState()){
+                if (other.gameObject.GetComponent<WeaponInfo>().GetPickableState() && playerStatus.GetStatus().equipped != true){
                     other.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
+                    playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.EQUIPPED, true);
                     other.gameObject.GetComponent<BoxCollider>().enabled = false; //Per evitare altri trigger
                     other.gameObject.GetComponent<BoxCollider>().enabled = false; //Utile per ottimizzare le prestazioni
                     Destroy(other.gameObject.GetComponent<Rigidbody>());
