@@ -32,16 +32,25 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 input = new Vector3();
 
 
+    public enum PlayerStatusEnum{
+        IS_MOVING = 0,
+        IS_RUNNING = 1,
+        IS_DODGING = 2,
+        EQUIPPED = 3
+
+    }
     //STATUS BOOL
     public struct PlayerStatus{
         public bool isMoving;
         public bool isRunning;
         public bool isDodging;
+        public bool equipped;
 
         public PlayerStatus(bool initialStatus){
             isMoving = initialStatus;
             isRunning = initialStatus;
             isDodging = initialStatus;
+            equipped = initialStatus;
         }
     };
     private PlayerStatus status;
@@ -182,5 +191,29 @@ public class PlayerMovement : MonoBehaviour
         return inputController;
     }
 
-//SET FUNCTIONS
+    //SET FUNCTIONS
+
+    public void SetStatus(PlayerStatusEnum condition, bool newValue){
+        switch(condition){
+            case PlayerStatusEnum.IS_MOVING:
+                status.isMoving = newValue;
+                break;
+            
+            case PlayerStatusEnum.IS_RUNNING:
+                status.isRunning = newValue;
+                break;
+            
+            case PlayerStatusEnum.IS_DODGING:
+                status.isDodging = newValue;
+                break;
+            
+            case PlayerStatusEnum.EQUIPPED:
+                status.equipped = newValue;
+                break;
+            
+            default:
+                print("Nessuno stato trovato da cambiare");
+                break;
+        }
+    }
 }
