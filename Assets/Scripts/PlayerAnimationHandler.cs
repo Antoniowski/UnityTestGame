@@ -14,7 +14,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private int isMovingHash;
     private int isRunningHash;
-
+    private int attackStateHash;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +26,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
         isMovingHash = Animator.StringToHash("IsMoving");
         isRunningHash = Animator.StringToHash("IsRunning");
+        attackStateHash = Animator.StringToHash("AttackState");
     
     }
 
@@ -35,6 +36,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         input = playerMovement.GetInput();
         bool moving = animator.GetBool(isMovingHash);
         bool running = animator.GetBool(isRunningHash);
+        bool attacking = animator.GetBool(attackStateHash);
 
         if(input != Vector3.zero){
             //Non corre e non dodgia - Cammina
@@ -50,6 +52,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         }else{
             animator.SetBool("IsMoving", false);
             animator.SetBool("IsRunning", false);
+            if(playerMovement.GetStatus().attackState) animator.SetBool("AttackState", true);
         }        
     }
 

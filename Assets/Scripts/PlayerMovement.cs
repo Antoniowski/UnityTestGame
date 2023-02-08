@@ -37,7 +37,9 @@ public class PlayerMovement : MonoBehaviour
         IS_RUNNING = 1,
         IS_DODGING = 2,
         EQUIPPED = 3,
-        IS_PICKING = 4
+        IS_PICKING = 4,
+        IS_ATTACKING = 5,
+        ATTACK_STATE = 6
 
     }
     //STATUS BOOL
@@ -47,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
         public bool isDodging;
         public bool equipped;
         public bool isPicking;
+        public bool isAttacking;
+        public bool attackState;
 
         public PlayerStatus(bool initialStatus){
             isMoving = initialStatus;
@@ -54,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
             isDodging = initialStatus;
             equipped = initialStatus;
             isPicking = initialStatus;
+            isAttacking = initialStatus;
+            attackState = initialStatus;
         }
     };
     private PlayerStatus status;
@@ -67,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
         inputController = new PlayerInputController();
         status = new PlayerStatus(false);
 
+
+        //le prossime funzioni funzionano sempre, basta che esista un istanza dell'input manager
         //movement
         inputController.CharacterInputController.Move.started += OnMovement;
         inputController.CharacterInputController.Move.canceled += OnMovement;
@@ -216,6 +224,14 @@ public class PlayerMovement : MonoBehaviour
             
             case PlayerStatusEnum.IS_PICKING:
                 status.isPicking = newValue;
+                break;
+            
+            case PlayerStatusEnum.IS_ATTACKING:
+                status.isAttacking = newValue;
+                break;
+            
+            case PlayerStatusEnum.ATTACK_STATE:
+                status.attackState = newValue;
                 break;
                 
             default:
