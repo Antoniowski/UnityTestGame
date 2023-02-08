@@ -30,7 +30,6 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(playerStatus.GetStatus().equipped);
     }
 
     private void OnTriggerStay(Collider other)
