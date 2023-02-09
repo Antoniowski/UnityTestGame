@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 6283147278077088510}
   - component: {fileID: 8596158234648253410}
   - component: {fileID: 5787554446846847402}
+  - component: {fileID: 6758987847569587517}
   m_Layer: 3
   m_Name: NewPlayer
   m_TagString: Player
@@ -497,7 +498,7 @@ Animator:
   m_GameObject: {fileID: 2599654776557164835}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
-  m_Controller: {fileID: 9100000, guid: d7406dbb25726094bbe55a2469b3acd3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 32a4bf7b7594ad2449298ece34fa82c2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -538,6 +539,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorHandler: {fileID: 0}
+  ROLL_SPEED_CURVE:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.3376465
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1616134
+      value: 3.536189
+      inSlope: 45.699158
+      outSlope: 45.699158
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.20671725
+    - serializedVersion: 3
+      time: 0.3129158
+      value: 9.973319
+      inSlope: 0.92877436
+      outSlope: 0.92877436
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.7063829
+      outWeight: 0.020055078
+    - serializedVersion: 3
+      time: 0.67400694
+      value: 2.3961732
+      inSlope: -11.666336
+      outSlope: -11.666336
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08801061
+    - serializedVersion: 3
+      time: 1.28883
+      value: -0.02937708
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   velocity: {x: 0, y: 0}
 --- !u!114 &5787554446846847402
 MonoBehaviour:
@@ -552,6 +604,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+--- !u!114 &6758987847569587517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599654776557164835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c840a734409154caf3b3e760152253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2974074360185190694
 GameObject:
   m_ObjectHideFlags: 0

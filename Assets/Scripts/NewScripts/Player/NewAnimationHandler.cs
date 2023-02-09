@@ -6,7 +6,7 @@ using UnityEngine;
 public class NewAnimationHandler : MonoBehaviour
 {
     [SerializeField]
-    private Animator animator;
+    public Animator animator;
     private int vertical;
     private int horizontal;
 
@@ -16,6 +16,9 @@ public class NewAnimationHandler : MonoBehaviour
         horizontal = Animator.StringToHash("Horizontal");
     }
 
+    //V = 0 IDLE
+    //V = 0.5 CAMMINATA
+    //V = 1 CORSA
     public void UpdateAnimatorMovementValues(float verticalMovement, float horizontalMovement, bool isRunning)
     {
         #region Vertical
