@@ -15,7 +15,7 @@ public class PlayerAttackHandler : MonoBehaviour
         playerStatus = GetComponentInChildren<PlayerMovement>();
         animator = FindObjectOfType<Animator>();
 
-        if(!playerStatus.GetStatus().isAttacking) playerInputController.CharacterInputController.Attack.performed += OnAttack;
+        playerInputController.CharacterInputController.Attack.performed += OnAttack;
     }
     // Start is called before the first frame update
     void Start()
@@ -31,12 +31,19 @@ public class PlayerAttackHandler : MonoBehaviour
 
 
     void OnAttack(InputAction.CallbackContext context){
-      if(!playerStatus.GetStatus().isAttacking)
+        if(!playerStatus.GetStatus().isAttacking)
         {
-        playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_ATTACKING, true);
-        playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.ATTACK_STATE, true);
-        StartCoroutine(Attack());
+            playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_ATTACKING, true);
+            playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.ATTACK_STATE, true);
+            StartCoroutine(Attack());
         }
+        if(playerStatus.GetStatus().isAttacking && animator.GetNextAnimatorStateInfo(0).IsName("PunchRight"))
+        {
+            playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.IS_ATTACKING, true);
+            playerStatus.SetStatus(PlayerMovement.PlayerStatusEnum.ATTACK_STATE, true);
+            animator.Play("PunchLeft");
+        }
+    
     }
 
     IEnumerator Attack(){
