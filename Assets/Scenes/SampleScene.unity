@@ -1838,6 +1838,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[0].time
+      value: 0.0012969971
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[1].time
+      value: 0.13790938
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[2].time
+      value: 0.38519394
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[4].time
+      value: 1.302124
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[0].value
+      value: 0.97821045
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[1].value
+      value: 1.5437334
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[2].value
+      value: 9.959751
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[4].value
+      value: -0.039215088
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[2].inSlope
+      value: 6.1830077
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[2].outSlope
+      value: 6.1830077
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596158234648253410, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: ROLL_SPEED.m_Curve.Array.data[2].outWeight
+      value: 0.09154272
+      objectReference: {fileID: 0}
     - target: {fileID: 8989904107138713162, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
       propertyPath: m_Controller
       value: 
@@ -1864,5 +1908,7 @@ MonoBehaviour:
   horizontal: 0
   vertical: 0
   inputMagnitude: 0
-  isRunning: 0
+  runFlag: 0
+  rollFlag: 0
+  isInteracting: 0
   inputDecoder: {x: 0, y: 0}

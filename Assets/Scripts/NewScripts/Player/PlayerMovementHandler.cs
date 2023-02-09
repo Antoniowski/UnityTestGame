@@ -20,6 +20,7 @@ public class PlayerMovementHandler : MonoBehaviour
     private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
     private const float GRAVITY = 1f;
+    [SerializeField] AnimationCurve ROLL_SPEED_CURVE;
 
     //VECTORS
     [HideInInspector]
@@ -46,15 +47,17 @@ public class PlayerMovementHandler : MonoBehaviour
     void Update()
     {
         float delta = Time.deltaTime;
-        MovePlayer(delta);
+        inputHandler.TickInput(delta);
+        if(!inputHandler.isInteracting) MovePlayer(delta);
+        HandleRoll(delta);
     }
 
 
     void MovePlayer(float delta){
         if(inputHandler.horizontal != 0 && inputHandler.vertical != 0)
         {
-            velocity += inputHandler.isRunning ? new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*2f*delta : new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
-            velocity = inputHandler.isRunning ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
+            velocity += inputHandler.runFlag ? new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*2f*delta : new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
+            velocity = inputHandler.runFlag ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
             HandlePlayerOrientation(delta);
         }
         else
@@ -62,7 +65,7 @@ public class PlayerMovementHandler : MonoBehaviour
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
         //ATTIVA LE ANIMAZIONI DI CAMMINATA
-        animatorHandler.UpdateAnimatorMovementValues(inputHandler.inputMagnitude,0, inputHandler.isRunning);
+        animatorHandler.UpdateAnimatorMovementValues(inputHandler.inputMagnitude,0, inputHandler.runFlag);
         characterController.Move(new Vector3(velocity.x, 0, velocity.y)*delta);
     }
 
@@ -72,4 +75,40 @@ public class PlayerMovementHandler : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*delta);
     }
 
+
+
+    #region ROLL
+    void HandleRoll(float delta)
+    {
+        if(animatorHandler.animator.GetBool("isInteracting"))
+            return;
+
+        if(inputHandler.rollFlag)
+        {
+            if(inputHandler.inputMagnitude != 0) StartCoroutine(RollAction());
+        }
+    }
+
+    IEnumerator RollAction(){
+        animatorHandler.PlayAnimationTarget("RollForward", true);
+        float timer = 1.3f;
+        float rollTime = 0f;
+        float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
+        
+        //Dodge direction
+        Quaternion toRotation = Quaternion.LookRotation(new Vector3(inputHandler.horizontal, 0, inputHandler.vertical), Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation,1);
+
+        while(timer > 0){
+            timer -= Time.deltaTime;
+            rollTime += Time.deltaTime;
+            rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
+            characterController.Move(new Vector3(inputHandler.horizontal, 0, inputHandler.vertical)*Time.deltaTime*rollSpeed);
+            animatorHandler.UpdateAnimatorMovementValues(0,0,inputHandler.runFlag);
+
+            yield return null;
+        }       
+
+    }
+    #endregion
 }
