@@ -1838,5 +1838,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 8989904107138713162, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 32a4bf7b7594ad2449298ece34fa82c2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+--- !u!1 &8296172668418508446 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2599654776557164835, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+  m_PrefabInstance: {fileID: 6283147276902047677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8296172668418508448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668418508446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48354b0dc6e26a54d84cac58f1f88df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontal: 0
+  vertical: 0
+  inputMagnitude: 0
+  isRunning: 0
+  inputDecoder: {x: 0, y: 0}

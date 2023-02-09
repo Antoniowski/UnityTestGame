@@ -8,6 +8,9 @@ public class PlayerMovementHandler : MonoBehaviour
     CharacterController characterController;
     PlayerInputHandler inputHandler;
 
+    [HideInInspector]
+    public NewAnimationHandler animatorHandler;
+
     #region Movement variables
     
     //CONSTANTS
@@ -34,6 +37,9 @@ public class PlayerMovementHandler : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        animatorHandler = GetComponentInChildren<NewAnimationHandler>();
+
+        animatorHandler.Init();
     }
 
     // Update is called once per frame
@@ -47,14 +53,16 @@ public class PlayerMovementHandler : MonoBehaviour
     void MovePlayer(float delta){
         if(inputHandler.horizontal != 0 && inputHandler.vertical != 0)
         {
-            velocity += new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
-            velocity = Vector2.ClampMagnitude(velocity, MAX_SPEED);
+            velocity += inputHandler.isRunning ? new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*2f*delta : new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
+            velocity = inputHandler.isRunning ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
             HandlePlayerOrientation(delta);
         }
         else
         {
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
+        //ATTIVA LE ANIMAZIONI DI CAMMINATA
+        animatorHandler.UpdateAnimatorMovementValues(inputHandler.inputMagnitude,0, inputHandler.isRunning);
         characterController.Move(new Vector3(velocity.x, 0, velocity.y)*delta);
     }
 

@@ -77,7 +77,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 {
                     ""name"": """",
                     ""id"": ""b276a12a-13ef-4ff2-b09b-deed4ac0bb19"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<XInputController>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
