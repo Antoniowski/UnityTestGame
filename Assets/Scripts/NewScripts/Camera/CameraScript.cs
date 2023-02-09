@@ -13,21 +13,28 @@ public class CameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         Component.FindObjectOfType<Camera>().orthographicSize = distance;
         
         //Set camera on the player using spheric coordinates
-
-        float xValue = player.transform.position.x + distance*Mathf.Cos(fi*Mathf.PI/180)*Mathf.Cos(theta*Mathf.PI/180);
-        float zValue = player.transform.position.z + distance*Mathf.Sin(theta*Mathf.PI/180)*Mathf.Cos(fi*Mathf.PI/180);
-        float yValue = player.transform.position.y + distance*Mathf.Sin(fi*Mathf.PI/180);
-        transform.position = new Vector3(xValue, yValue, zValue);
+        SetAndHoldCameraPosition();
+        //Rotate to 45 degrees
         transform.rotation = Quaternion.Euler(new Vector3(45, 45, 0));
     }
+
+
+
 
     // Update is called once per frame
     void Update()
     {
+        SetAndHoldCameraPosition();
+    }
+
+    
+    
+    
+    void SetAndHoldCameraPosition(){
         float xValue = player.transform.position.x + distance*Mathf.Cos(fi*Mathf.PI/180)*Mathf.Cos(theta*Mathf.PI/180);
         float zValue = player.transform.position.z + distance*Mathf.Sin(theta*Mathf.PI/180)*Mathf.Cos(fi*Mathf.PI/180);
         float yValue = player.transform.position.y + distance*Mathf.Sin(fi*Mathf.PI/180);
