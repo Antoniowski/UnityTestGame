@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     //WEAPON
     private string equippedWeapon;
     public bool isEquipped;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,12 @@ public class PlayerManager : MonoBehaviour
         if(!inputHandler.isInteracting) WeaponInteractionHandle(delta);
     }
 
+
+    void LateUpdate()
+    {
+        //Un possibile metodo per resettare i pulsanti dopo l'update
+        inputHandler.interactionFlag = false;
+    }
 
 
 
@@ -63,7 +71,7 @@ public class PlayerManager : MonoBehaviour
         weapon.transform.position = rightHand.transform.position;
         
         //Aggiustamenti
-        weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-90));
+        weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,90));
         weapon.transform.localPosition = new Vector3(0,0,-1f);
         equippedWeapon = weapon.name;
 
