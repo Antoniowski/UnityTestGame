@@ -10,9 +10,10 @@ public class PlayerInputHandler : MonoBehaviour
     public float inputMagnitude;
     
     #region FLAGS
-
+    //flag per indicare la pressione di un pulsante o un interazione in corso
     public bool runFlag;
     public bool rollFlag;
+    public bool interactionFlag;
     public bool isInteracting;
 
     #endregion
@@ -28,7 +29,7 @@ public class PlayerInputHandler : MonoBehaviour
             SetupMovementInput();
             SetupRunInput();
             SetupRollInput();
-            
+            SetInteractInput();
 
         }
 
@@ -58,6 +59,12 @@ public class PlayerInputHandler : MonoBehaviour
     void SetupRollInput(){
         inputController.CharacterInputController.Dodge.started += inputController => rollFlag = inputController.ReadValueAsButton();
         inputController.CharacterInputController.Dodge.canceled += inputController => rollFlag = inputController.ReadValueAsButton();
+    }
+
+    void SetInteractInput()
+    {
+        inputController.CharacterInputController.Interact.started += inputController => interactionFlag = inputController.ReadValueAsButton();
+        inputController.CharacterInputController.Interact.canceled += inputController => interactionFlag = inputController.ReadValueAsButton();
     }
 
     //Da usare negli update ogni volte ci sia bisogno degli input
