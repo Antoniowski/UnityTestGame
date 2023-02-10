@@ -11,10 +11,10 @@ public class PlayerInputHandler : MonoBehaviour
     
     #region FLAGS
     //flag per indicare la pressione di un pulsante o un interazione in corso
-    public bool runFlag;
-    public bool rollFlag;
-    public bool interactionFlag;
-    public bool isInteracting;
+    public bool runFlag;//SHIFT
+    public bool rollFlag; //SPACEBAR
+    public bool interactionFlag; //E
+    public bool isInteracting; //Usata per impedire certi input
 
     #endregion
 
