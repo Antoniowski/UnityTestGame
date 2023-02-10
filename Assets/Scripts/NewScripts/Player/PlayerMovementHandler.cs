@@ -47,7 +47,6 @@ public class PlayerMovementHandler : MonoBehaviour
     void Update()
     {
         float delta = Time.deltaTime;
-        inputHandler.TickInput(delta);
         if(!inputHandler.isInteracting) MovePlayer(delta);
         HandleRoll(delta);
     }
