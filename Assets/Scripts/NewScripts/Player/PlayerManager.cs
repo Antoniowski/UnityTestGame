@@ -9,11 +9,13 @@ public class PlayerManager : MonoBehaviour
     PlayerInputHandler inputHandler;
     Animator animator;
     PlayerCollisionHandler collisionHandler;
+    PlayerInventoryHandler inventory;
+    NewAnimationHandler animationHandler;
+    CharacterController controller;
 
-    //WEAPON
-    private string equippedWeapon;
-    public bool isEquipped;
-
+    public bool isGrounded;
+    public bool isInAir;
+    public bool canDoCombo;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,9 @@ public class PlayerManager : MonoBehaviour
         inputHandler = GetComponent<PlayerInputHandler>();
         collisionHandler = GetComponent<PlayerCollisionHandler>();
         animator = GetComponentInChildren<Animator>();
+        controller = GetComponent<CharacterController>();
+        inventory = GetComponent<PlayerInventoryHandler>();
+        animationHandler = GetComponent<NewAnimationHandler>();
     }
 
     // Update is called once per frame
@@ -30,7 +35,11 @@ public class PlayerManager : MonoBehaviour
     {
         float delta = Time.deltaTime;
         inputHandler.isInteracting = animator.GetBool("isInteracting");
-        if(!inputHandler.isInteracting) WeaponInteractionHandle(delta);
+        canDoCombo = animator.GetBool("canDoCombo");
+        isGrounded = controller.isGrounded;
+        isInAir = !controller.isGrounded;
+        inputHandler.TickInput(delta);
+        if(!inputHandler.isInteracting) inventory.WeaponInteractionHandle(delta);
     }
 
 
@@ -38,61 +47,7 @@ public class PlayerManager : MonoBehaviour
     {
         //Un possibile metodo per resettare i pulsanti dopo l'update
         inputHandler.interactionFlag = false;
+        inputHandler.attackFlag = false;
     }
 
-
-
-
-
-    #region Weapon Handle
-    void WeaponInteractionHandle(float delta)
-    {
-        if(!collisionHandler.isPickable)
-            return;
-
-        if(!inputHandler.interactionFlag)
-            return;
-
-        animator.SetBool("isInteracting", true);
-        if(isEquipped) DropWeapon();
-        PickUpweapon(collisionHandler.weaponCollider);
-    }
-
-    void PickUpweapon(GameObject weapon)
-    {
-        weapon.GetComponent<BoxCollider>().enabled = false; //Per evitare altri trigger
-        weapon.GetComponent<BoxCollider>().enabled = false; //Utile per ottimizzare le prestazioni
-        Destroy(weapon.GetComponent<Rigidbody>());
-
-        //PER AGGIUNGERLO ALLA MANO
-        //weapon.transform.forward = rightHand.transform.forward;
-        
-        weapon.transform.parent = rightHand.transform;
-        weapon.transform.position = rightHand.transform.position;
-        
-        //Aggiustamenti
-        weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,90));
-        weapon.transform.localPosition = new Vector3(0,0,-1f);
-        equippedWeapon = weapon.name;
-
-        isEquipped = true;
-        animator.SetBool("isInteracting", false);
-    }
-
-    void DropWeapon()
-    {
-        Transform oldWeapon = rightHand.transform.Find(equippedWeapon); //rimosso dalla mano
-        oldWeapon.parent = null;
-        oldWeapon.gameObject.AddComponent<Rigidbody>();
-        oldWeapon.gameObject.GetComponent<BoxCollider>().enabled = true;
-        oldWeapon.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
-        StartCoroutine(PickingStatusCooldown(oldWeapon));
-    }
-
-    IEnumerator PickingStatusCooldown(Transform weapon)
-    {
-        yield return new WaitForSeconds(2);
-        weapon.gameObject.GetComponent<WeaponInfo>().SetPickableState(true);
-    }
-    #endregion
 }
