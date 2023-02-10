@@ -7,8 +7,8 @@ public class WeaponInfo : MonoBehaviour
 {
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
-    [SerializeField] private float damange;
-    private bool pickable = false;
+    [SerializeField] private float damage;
+    private bool pickable = true;
     // Start is called before the first frame update
     void Start()
     {
