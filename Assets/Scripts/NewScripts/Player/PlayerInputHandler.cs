@@ -5,6 +5,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+
+    PlayerInputController inputController;
+    NewPlayerAttackHandler attackHandler;
+    PlayerManager manager;
+
     public float horizontal;
     public float vertical;
     public float inputMagnitude;
@@ -14,14 +19,21 @@ public class PlayerInputHandler : MonoBehaviour
     public bool runFlag;//SHIFT
     public bool rollFlag; //SPACEBAR
     public bool interactionFlag; //E
+    public bool attackFlag;
+    public bool comboFlag;
+
     public bool isInteracting; //Usata per impedire certi input
-
-    #endregion
-
-    PlayerInputController inputController;
     
-    [HideInInspector]
-    public Vector2 inputDecoder;
+
+    #endregion    
+    [HideInInspector] public Vector2 inputDecoder;
+
+
+    void Start()
+    {
+        attackHandler = GetComponent<NewPlayerAttackHandler>();
+        manager = GetComponent<PlayerManager>();
+    }
 
     public void OnEnable(){
         if(inputController == null){
@@ -30,7 +42,7 @@ public class PlayerInputHandler : MonoBehaviour
             SetupRunInput();
             SetupRollInput();
             SetInteractInput();
-
+            SetAttackInput();
         }
 
         inputController.Enable();
@@ -67,10 +79,17 @@ public class PlayerInputHandler : MonoBehaviour
         inputController.CharacterInputController.Interact.canceled += inputController => interactionFlag = inputController.ReadValueAsButton();
     }
 
+    void SetAttackInput()
+    {
+        inputController.CharacterInputController.Attack.started += inputController => attackFlag = inputController.ReadValueAsButton();
+        inputController.CharacterInputController.Attack.canceled += inputController => attackFlag = inputController.ReadValueAsButton();
+    }
+
     //Da usare negli update ogni volte ci sia bisogno degli input
     public void TickInput(float delta)
     {
         if(!isInteracting) MoveInput(delta);
+        HandleAttackInput(delta);
     }
 
     //Serve ad aggiornare tutte le variabili di input usate dagli altri script
@@ -83,5 +102,22 @@ public class PlayerInputHandler : MonoBehaviour
         horizontal = adaptedInput.x;
         vertical = adaptedInput.z;
         inputMagnitude = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+    }
+
+    void HandleAttackInput(float delta)
+    {
+        if(!attackFlag)
+            return;
+
+        if(!manager.canDoCombo)
+        {
+            if(!isInteracting) attackHandler.HandleAttack();
+            return;
+        }       
+        
+        comboFlag = true;
+        attackHandler.HandleCombo();
+        comboFlag = false;
+        
     }
 }

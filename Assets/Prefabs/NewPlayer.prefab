@@ -521,7 +521,9 @@ GameObject:
   - component: {fileID: 5787554446846847402}
   - component: {fileID: 6758987847569587517}
   - component: {fileID: 4209754559832070491}
+  - component: {fileID: 4461943704496201474}
   - component: {fileID: 5885449613557114889}
+  - component: {fileID: 1028291192019329798}
   m_Layer: 3
   m_Name: NewPlayer
   m_TagString: Player
@@ -687,7 +689,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c840a734409154caf3b3e760152253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEquipped: 0
+  isGrounded: 0
+  isInAir: 0
+  caDoCombo: 0
 --- !u!114 &4209754559832070491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,6 +707,19 @@ MonoBehaviour:
   collisionDetected: 0
   isPickable: 0
   weaponCollider: {fileID: 0}
+--- !u!114 &4461943704496201474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599654776557164835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96905ec5500a4504c97973dddb60f5da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEquipped: 0
 --- !u!114 &5885449613557114889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,8 +738,21 @@ MonoBehaviour:
   runFlag: 0
   rollFlag: 0
   interactionFlag: 0
+  attackFlag: 0
   isInteracting: 0
   inputDecoder: {x: 0, y: 0}
+--- !u!114 &1028291192019329798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599654776557164835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2df07815c6859f42ac8f43aa55e468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2974074360185190694
 GameObject:
   m_ObjectHideFlags: 0
