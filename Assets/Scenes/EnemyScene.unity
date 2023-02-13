@@ -634,6 +634,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7026205280087969988, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465231427025179244, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 119
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5aeee9bf1c1b194dac22fd68a941a15, type: 3}
 --- !u!1001 &6198558545920876991
@@ -689,6 +697,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654127130374986788, guid: 0d44073fd4ab7904ba7c16c04e6ea3f3, type: 3}
       propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654127130374986788, guid: 0d44073fd4ab7904ba7c16c04e6ea3f3, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []

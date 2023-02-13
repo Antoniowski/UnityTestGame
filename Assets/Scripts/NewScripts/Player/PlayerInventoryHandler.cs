@@ -9,8 +9,11 @@ public class PlayerInventoryHandler : MonoBehaviour
     PlayerInputHandler inputHandler;
     NewAnimationHandler animationHandler;
 
-    GameObject rightHand;
-    GameObject leftHand;
+    [HideInInspector]
+    public GameObject rightHand;
+
+    [HideInInspector]
+    public GameObject leftHand;
 
     private string equippedWeapon;
     public bool isEquipped;
@@ -18,6 +21,7 @@ public class PlayerInventoryHandler : MonoBehaviour
     void Start()
     {
         rightHand = GameObject.FindGameObjectWithTag("RightHand");
+        leftHand = GameObject.FindGameObjectWithTag("LeftHand");
 
         collisionHandler = GetComponent<PlayerCollisionHandler>();
         inputHandler = GetComponent<PlayerInputHandler>();
