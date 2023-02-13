@@ -59,5 +59,5 @@ public class PlayerStats : MonoBehaviour
         animationHandler.PlayAnimationTarget("Death", true);
         //INSERIRE COSA DEVE FARE QUANDO MUORE
     }
-
+    
 }
