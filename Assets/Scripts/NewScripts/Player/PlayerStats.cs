@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
 
+    PlayerInputHandler inputHandler;
     NewAnimationHandler animationHandler;
 
     public int currentHealth;
@@ -14,6 +15,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         animationHandler = GetComponent<NewAnimationHandler>();
+        inputHandler = GetComponent<PlayerInputHandler>();
     }
 
     public void Init(int maxHealth)
@@ -40,7 +42,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        animationHandler.PlayAnimationTarget("GetHit", true);
+        if(!inputHandler.isInteracting) animationHandler.PlayAnimationTarget("GetHit", true);
         currentHealth = currentHealth - damage;
 
         if(currentHealth <= 0)
