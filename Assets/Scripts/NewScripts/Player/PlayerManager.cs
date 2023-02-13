@@ -12,7 +12,9 @@ public class PlayerManager : MonoBehaviour
     PlayerInventoryHandler inventory;
     NewAnimationHandler animationHandler;
     CharacterController controller;
+    PlayerStats playerStats;
 
+    [Header("Flags")]    
     public bool isGrounded;
     public bool isInAir;
     public bool canDoCombo;
@@ -21,13 +23,15 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         rightHand = GameObject.FindGameObjectWithTag("RightHand");
-
         inputHandler = GetComponent<PlayerInputHandler>();
         collisionHandler = GetComponent<PlayerCollisionHandler>();
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         inventory = GetComponent<PlayerInventoryHandler>();
         animationHandler = GetComponent<NewAnimationHandler>();
+        
+        playerStats = GetComponent<PlayerStats>();
+        playerStats.Init(10);
     }
 
     // Update is called once per frame
