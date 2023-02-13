@@ -42,7 +42,7 @@ public class EnemyStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        animationHandler.PlayAnimationTarget("GetHit", true);
+        if(!animationHandler.animator.GetBool("isInteracting")) animationHandler.PlayAnimationTarget("GetHit", true);
         currentHealth = currentHealth - damage;
 
         if(currentHealth <= 0)
