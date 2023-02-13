@@ -146303,21 +146303,21 @@ AnimationClip:
   m_Events:
   - time: 0.46666667
     functionName: EnablePunchCollider
-    data: left
+    data: right
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5
+  - time: 0.48333332
     functionName: EnableCombo
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.75
+  - time: 0.68333334
     functionName: DisablePunchCollider
-    data: left
+    data: right
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

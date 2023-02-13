@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    GameObject rightHand;
-
     PlayerInputHandler inputHandler;
     Animator animator;
     PlayerCollisionHandler collisionHandler;
@@ -22,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rightHand = GameObject.FindGameObjectWithTag("RightHand");
         inputHandler = GetComponent<PlayerInputHandler>();
         collisionHandler = GetComponent<PlayerCollisionHandler>();
         animator = GetComponentInChildren<Animator>();
