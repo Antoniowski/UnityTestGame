@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class EnemyStats : MonoBehaviour
 {
 
     NewAnimationHandler animationHandler;
@@ -14,6 +14,8 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         animationHandler = GetComponent<NewAnimationHandler>();
+        animationHandler.Init();
+        Init(10);
     }
 
     public void Init(int maxHealth)

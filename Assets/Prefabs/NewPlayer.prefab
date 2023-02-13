@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 4217298295280948870}
   - component: {fileID: 2511253825576080951}
   m_Layer: 3
-  m_Name: RighHand
+  m_Name: RightHand
   m_TagString: RightHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -517,6 +517,7 @@ GameObject:
   - component: {fileID: 8989904107138713162}
   - component: {fileID: 6283147278077088510}
   - component: {fileID: 3013959682878724555}
+  - component: {fileID: 7070994801967639652}
   - component: {fileID: 8596158234648253410}
   - component: {fileID: 5787554446846847402}
   - component: {fileID: 6758987847569587517}
@@ -580,12 +581,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.05, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!65 &3013959682878724555
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -599,6 +600,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7070994801967639652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599654776557164835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87811422cf72164fa9b3484453a77ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  maxHealth: 0
 --- !u!114 &8596158234648253410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,7 +706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrounded: 0
   isInAir: 0
-  caDoCombo: 0
+  canDoCombo: 0
 --- !u!114 &4209754559832070491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,6 +754,7 @@ MonoBehaviour:
   rollFlag: 0
   interactionFlag: 0
   attackFlag: 0
+  comboFlag: 0
   isInteracting: 0
   inputDecoder: {x: 0, y: 0}
 --- !u!114 &1028291192019329798

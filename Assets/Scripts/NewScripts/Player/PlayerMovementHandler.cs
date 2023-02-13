@@ -19,13 +19,13 @@ public class PlayerMovementHandler : MonoBehaviour
     private const float FRICTION = 20f;
     private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
-    private const float GRAVITY = 1f;
+    private const float GRAVITY = 10f;
     [SerializeField] AnimationCurve ROLL_SPEED_CURVE;
 
     //VECTORS
     [HideInInspector]
     public Vector2 velocity;
-    private Vector2 verticalVelocity;
+    private Vector3 verticalVelocity;
 
     #endregion
 
@@ -53,7 +53,7 @@ public class PlayerMovementHandler : MonoBehaviour
 
 
     void MovePlayer(float delta){
-        if(inputHandler.horizontal != 0 && inputHandler.vertical != 0)
+        if(inputHandler.horizontal != 0 || inputHandler.vertical != 0)
         {
             velocity += inputHandler.runFlag ? new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*2f*delta : new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
             velocity = inputHandler.runFlag ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
@@ -63,9 +63,13 @@ public class PlayerMovementHandler : MonoBehaviour
         {
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
+
+        //APPLICO LA GRAVITA'
+        verticalVelocity = Vector3.down*GRAVITY*delta;
+
         //ATTIVA LE ANIMAZIONI DI CAMMINATA
         animatorHandler.UpdateAnimatorMovementValues(inputHandler.inputMagnitude,0, inputHandler.runFlag);
-        characterController.Move(new Vector3(velocity.x, 0, velocity.y)*delta);
+        characterController.Move(new Vector3(velocity.x, verticalVelocity.y, velocity.y)*delta);
     }
 
     void HandlePlayerOrientation(float delta)
