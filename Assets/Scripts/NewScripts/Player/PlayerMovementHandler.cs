@@ -7,6 +7,7 @@ public class PlayerMovementHandler : MonoBehaviour
 
     CharacterController characterController;
     PlayerInputHandler inputHandler;
+    PlayerManager manager;
 
     [HideInInspector]
     public NewAnimationHandler animatorHandler;
@@ -39,6 +40,7 @@ public class PlayerMovementHandler : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         inputHandler = GetComponent<PlayerInputHandler>();
         animatorHandler = GetComponentInChildren<NewAnimationHandler>();
+        manager = GetComponent<PlayerManager>();
 
         animatorHandler.Init();
     }
@@ -83,15 +85,16 @@ public class PlayerMovementHandler : MonoBehaviour
     #region ROLL
     void HandleRoll(float delta)
     {
+        //Salta l'azione se è già impegnato
         if(animatorHandler.animator.GetBool("isInteracting"))
             return;
-
+            
         if(inputHandler.rollFlag)
         {
             if(inputHandler.inputMagnitude != 0) StartCoroutine(RollAction());
         }
     }
-
+    
     IEnumerator RollAction(){
         animatorHandler.PlayAnimationTarget("RollForward", true);
         float timer = 1f; //DURATA ANIMAZIONE
