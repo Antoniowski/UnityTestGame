@@ -44,7 +44,7 @@ public class PlayerInventoryHandler : MonoBehaviour
     void PickUpweapon(GameObject weapon)
     {
         weapon.GetComponent<BoxCollider>().enabled = false; //Per evitare altri trigger
-        weapon.GetComponent<BoxCollider>().enabled = false; //Utile per ottimizzare le prestazioni
+        weapon.GetComponent<MeshCollider>().enabled = false; //Utile per ottimizzare le prestazioni
         Destroy(weapon.GetComponent<Rigidbody>());
 
         //PER AGGIUNGERLO ALLA MANO
@@ -68,6 +68,7 @@ public class PlayerInventoryHandler : MonoBehaviour
         oldWeapon.parent = null;
         oldWeapon.gameObject.AddComponent<Rigidbody>();
         oldWeapon.gameObject.GetComponent<BoxCollider>().enabled = true;
+        oldWeapon.gameObject.GetComponent<MeshCollider>().enabled = true;
         oldWeapon.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
         StartCoroutine(PickingStatusCooldown(oldWeapon));
     }
