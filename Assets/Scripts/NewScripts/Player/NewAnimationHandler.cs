@@ -65,6 +65,13 @@ public class NewAnimationHandler : MonoBehaviour
         
     }
 
+    public void PlayAnimationTarget(Animation targetAnim, bool isInteracting)
+    {
+        animator.applyRootMotion = isInteracting;
+        animator.SetBool("isInteracting", isInteracting);
+        animator.CrossFade(targetAnim.name, 0.2f);
+    }
+
     public void EnableCombo()
     {
         animator.SetBool("canDoCombo", true);
