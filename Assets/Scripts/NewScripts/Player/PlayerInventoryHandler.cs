@@ -11,6 +11,7 @@ public class PlayerInventoryHandler : MonoBehaviour
 
     [HideInInspector]
     public GameObject rightHand;
+    public WeaponInfo rightHandWeapon;
 
     [HideInInspector]
     public GameObject leftHand;
@@ -51,6 +52,8 @@ public class PlayerInventoryHandler : MonoBehaviour
         weapon.GetComponent<MeshCollider>().enabled = false; //Utile per ottimizzare le prestazioni
         Destroy(weapon.GetComponent<Rigidbody>());
 
+        weapon.GetComponent<BoxCollider>().size = weapon.GetComponent<WeaponInfo>().hitBox;
+
         //PER AGGIUNGERLO ALLA MANO
         //weapon.transform.forward = rightHand.transform.forward;
         
@@ -63,6 +66,7 @@ public class PlayerInventoryHandler : MonoBehaviour
         equippedWeapon = weapon.name;
 
         isEquipped = true;
+        rightHandWeapon = weapon.GetComponent<WeaponInfo>();
         animationHandler.animator.SetBool("isInteracting", false);
     }
 
@@ -72,6 +76,7 @@ public class PlayerInventoryHandler : MonoBehaviour
         oldWeapon.parent = null;
         oldWeapon.gameObject.AddComponent<Rigidbody>();
         oldWeapon.gameObject.GetComponent<BoxCollider>().enabled = true;
+        oldWeapon.GetComponent<BoxCollider>().size = oldWeapon.GetComponent<WeaponInfo>().interactionCollider;
         oldWeapon.gameObject.GetComponent<MeshCollider>().enabled = true;
         oldWeapon.gameObject.GetComponent<WeaponInfo>().SetPickableState(false);
         StartCoroutine(PickingStatusCooldown(oldWeapon));

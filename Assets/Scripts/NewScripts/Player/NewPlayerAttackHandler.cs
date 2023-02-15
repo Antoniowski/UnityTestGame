@@ -6,6 +6,7 @@ public class NewPlayerAttackHandler : MonoBehaviour
 {
     NewAnimationHandler animationHandler;
     PlayerInputHandler inputHandler;
+    PlayerInventoryHandler inventory;
 
     private string lastAttack;
 
@@ -13,12 +14,19 @@ public class NewPlayerAttackHandler : MonoBehaviour
     {
         animationHandler = GetComponent<NewAnimationHandler>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        inventory = GetComponent<PlayerInventoryHandler>();
     }
 
     public void HandleAttack()
     {
-        animationHandler.PlayAnimationTarget("PunchRight", true);
-        lastAttack = "PunchRight";
+        if(!inventory.isEquipped){
+            animationHandler.PlayAnimationTarget("PunchRight", true);
+            lastAttack = "PunchRight";
+            return;
+        }
+
+        animationHandler.PlayAnimationTarget(inventory.rightHandWeapon.weaponAnimation, true);
+        lastAttack = inventory.rightHandWeapon.weaponAnimation;
 
     }
 
@@ -73,6 +81,25 @@ public class NewPlayerAttackHandler : MonoBehaviour
         {
             GameObject leftHand = GameObject.FindGameObjectWithTag("LeftHand");
             leftHand.GetComponentInChildren<SphereCollider>().enabled = false;
+        }
+    }
+
+    public void EnableHitCollider()
+    {
+        if(inventory.isEquipped)
+        {
+            Transform weapon = GameObject.FindGameObjectWithTag("RightHand").transform.GetChild(0);
+            weapon.GetComponent<BoxCollider>().enabled = true;
+        }
+    }
+
+
+    public void DisableHitCollider()
+    {
+       if(inventory.isEquipped)
+       {
+            Transform weapon = GameObject.FindGameObjectWithTag("RightHand").transform.GetChild(0);
+            weapon.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

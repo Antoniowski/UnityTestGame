@@ -367,6 +367,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 119
+  weaponAnimation: 
 --- !u!1 &1294853470998485562
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +537,7 @@ GameObject:
   - component: {fileID: 1317458910134709040}
   - component: {fileID: 8989904107138713162}
   - component: {fileID: 6283147278077088510}
-  - component: {fileID: 3013959682878724555}
+  - component: {fileID: 4572722961806313259}
   - component: {fileID: 7070994801967639652}
   - component: {fileID: 8596158234648253410}
   - component: {fileID: 5787554446846847402}
@@ -607,8 +608,8 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!65 &3013959682878724555
-BoxCollider:
+--- !u!136 &4572722961806313259
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -617,8 +618,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7070994801967639652
 MonoBehaviour:
@@ -754,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightHand: {fileID: 0}
+  rightHandWeapon: {fileID: 0}
   leftHand: {fileID: 0}
   isEquipped: 0
 --- !u!114 &5885449613557114889
@@ -1320,6 +1323,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 119
+  weaponAnimation: 
 --- !u!1 &4443883874968199867
 GameObject:
   m_ObjectHideFlags: 0
