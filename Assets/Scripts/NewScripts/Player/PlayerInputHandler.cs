@@ -107,8 +107,7 @@ public class PlayerInputHandler : MonoBehaviour
     //Da usare negli update ogni volte ci sia bisogno degli input
     public void TickInput(float delta)
     {
-        if(!isInteracting) 
-            MoveInput(delta);
+        MoveInput(delta);
         HandleAttackInput(delta);
         HandleRoll(delta);
     }
@@ -117,6 +116,9 @@ public class PlayerInputHandler : MonoBehaviour
     //per creare movimento
     void MoveInput(float delta)
     {
+        if(isInteracting)
+            return;
+
         AdaptInputDirection();
         horizontal = adaptedInput.x;
         vertical = adaptedInput.z;

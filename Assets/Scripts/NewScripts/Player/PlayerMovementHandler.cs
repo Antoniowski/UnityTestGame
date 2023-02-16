@@ -20,13 +20,15 @@ public class PlayerMovementHandler : MonoBehaviour
     private const float FRICTION = 20f;
     private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
-    private const float GRAVITY = 10f;
+    private const float GRAVITY = 1.0f;
     [SerializeField] AnimationCurve ROLL_SPEED_CURVE;
 
     //VECTORS
     [HideInInspector]
     public Vector2 velocity;
-    private Vector3 verticalVelocity;
+    private float verticalVelocity;
+
+    private float inAirTimer = 0;
 
     #endregion
 
@@ -49,7 +51,10 @@ public class PlayerMovementHandler : MonoBehaviour
     void Update()
     {
         float delta = Time.deltaTime;
+        ApplyGravity(delta);
         if(!inputHandler.isInteracting) MovePlayer(delta);
+        HandleFall(delta, new Vector3(velocity.x, 0, velocity.y));
+        if(manager.isInAir) inAirTimer += delta;
     }
 
 
@@ -65,12 +70,9 @@ public class PlayerMovementHandler : MonoBehaviour
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
 
-        //APPLICO LA GRAVITA'
-        verticalVelocity = Vector3.down*GRAVITY*delta;
-
         //ATTIVA LE ANIMAZIONI DI CAMMINATA
         animatorHandler.UpdateAnimatorMovementValues(inputHandler.inputMagnitude,0, inputHandler.runFlag);
-        characterController.Move(new Vector3(velocity.x, verticalVelocity.y, velocity.y)*delta);
+        characterController.Move(new Vector3(velocity.x, 0, velocity.y)*delta);
     }
 
     void HandlePlayerOrientation(float delta)
@@ -126,5 +128,46 @@ public class PlayerMovementHandler : MonoBehaviour
         }       
 
     }
+    #endregion
+
+    #region FALL
+
+    void HandleFall(float delta, Vector3 moveDir)
+    {
+        //Se non tocca e non è considerato ancota in aria
+        if(!manager.isGrounded)
+        {
+            if(!manager.isInAir) manager.isInAir = true;
+            if(inAirTimer>0.15f)
+            {
+                if(!inputHandler.isInteracting)
+                    animatorHandler.PlayAnimationTarget("FallingLoop", true);
+                characterController.Move(moveDir/8*delta);
+            }
+
+        }
+
+        if(manager.isGrounded)
+        {
+            if(manager.isInAir){
+                inAirTimer = 0;
+                manager.isInAir = false;
+                animatorHandler.PlayAnimationTarget("Empty", false);
+            } 
+
+        }
+    }
+
+    #endregion
+
+
+    #region GRAVITY
+
+    void ApplyGravity(float delta)
+    {
+        verticalVelocity = -GRAVITY;
+        characterController.Move(new Vector3(0,verticalVelocity,0)*delta);
+    }
+
     #endregion
 }
