@@ -177,7 +177,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""name"": """",
                     ""id"": ""7b460b59-b296-4522-a71a-7ff20eb49b0a"",
                     ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Tap(pressPoint=0.4)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dodge"",

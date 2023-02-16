@@ -74,13 +74,15 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     void SetupRunInput(){
-        inputController.CharacterInputController.Run.started += inputController => runFlag = inputController.ReadValueAsButton();
+        //inputController.CharacterInputController.Run.started += inputController => runFlag = inputController.ReadValueAsButton();
         inputController.CharacterInputController.Run.canceled += inputController => runFlag = inputController.ReadValueAsButton();
+        inputController.CharacterInputController.Run.performed += inputController => runFlag = inputController.ReadValueAsButton();
     }
 
     void SetupRollInput(){
-        inputController.CharacterInputController.Dodge.started += inputController => rollFlag = inputController.ReadValueAsButton();
-        inputController.CharacterInputController.Dodge.canceled += inputController => rollFlag = inputController.ReadValueAsButton();
+        //inputController.CharacterInputController.Dodge.started += inputController => rollFlag = inputController.ReadValueAsButton();
+        inputController.CharacterInputController.Dodge.canceled += inputController => rollFlag = false;
+        inputController.CharacterInputController.Dodge.performed += inputController => rollFlag = true;
     }
 
     void SetInteractInput()
@@ -132,7 +134,7 @@ public class PlayerInputHandler : MonoBehaviour
 
             if(!canBuffer)
                 return;
-                
+
             AdaptInputDirection();
             bufferedAction = ("dodge", adaptedInput);
             return;

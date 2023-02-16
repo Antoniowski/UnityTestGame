@@ -61,7 +61,7 @@ public class PlayerInventoryHandler : MonoBehaviour
         weapon.transform.position = rightHand.transform.position;
         
         //Aggiustamenti
-        weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,90));
+        weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-75));
         weapon.transform.localPosition = new Vector3(0,0,-1f);
         equippedWeapon = weapon.name;
 
