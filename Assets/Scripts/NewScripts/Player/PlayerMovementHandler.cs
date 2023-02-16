@@ -50,7 +50,6 @@ public class PlayerMovementHandler : MonoBehaviour
     {
         float delta = Time.deltaTime;
         if(!inputHandler.isInteracting) MovePlayer(delta);
-        HandleRoll(delta);
     }
 
 
@@ -83,34 +82,45 @@ public class PlayerMovementHandler : MonoBehaviour
 
 
     #region ROLL
-    void HandleRoll(float delta)
-    {
-        //Salta l'azione se è già impegnato
-        if(animatorHandler.animator.GetBool("isInteracting"))
-            return;
-            
-        if(inputHandler.rollFlag)
-        {
-            if(inputHandler.inputMagnitude != 0) StartCoroutine(RollAction());
-        }
-    }
     
-    IEnumerator RollAction(){
+    public IEnumerator RollAction(){
         animatorHandler.PlayAnimationTarget("RollForward", true);
         float timer = 1f; //DURATA ANIMAZIONE
         float rollTime = 0f;
         float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
-        
-        //Dodge direction
-        Quaternion toRotation = Quaternion.LookRotation(new Vector3(inputHandler.horizontal, 0, inputHandler.vertical), Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation,1);
 
         while(timer > 0){
+            //Dodge direction
+            Quaternion toRotation = Quaternion.LookRotation(new Vector3(inputHandler.horizontal, 0, inputHandler.vertical), Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation,1);
+
             timer -= Time.deltaTime;
             rollTime += Time.deltaTime;
             rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
             characterController.Move(new Vector3(inputHandler.horizontal, 0, inputHandler.vertical)*Time.deltaTime*rollSpeed);
             animatorHandler.UpdateAnimatorMovementValues(0,0,inputHandler.runFlag);
+
+            yield return null;
+        }       
+
+    }
+
+    public IEnumerator RollAction(Vector3 newDir){
+        animatorHandler.PlayAnimationTarget("RollForward", true);
+        float timer = 1f; //DURATA ANIMAZIONE
+        float rollTime = 0f;
+        float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
+
+        while(timer > 0){
+            //Direzione Dodge
+            Quaternion toRotation = Quaternion.LookRotation(new Vector3(newDir.x, 0, newDir.z), Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
+
+            timer -= Time.deltaTime;
+            rollTime += Time.deltaTime;
+            rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
+            characterController.Move(new Vector3(newDir.x, 0, newDir.z)*Time.deltaTime*rollSpeed);
+            animatorHandler.UpdateAnimatorMovementValues(0,0,inputHandler.runFlag); //Necessario per evitare di mantenere in memoria il movimento pre dodge
 
             yield return null;
         }       

@@ -37,6 +37,7 @@ public class PlayerManager : MonoBehaviour
         float delta = Time.deltaTime;
         inputHandler.isInteracting = animator.GetBool("isInteracting");
         canDoCombo = animator.GetBool("canDoCombo");
+        inputHandler.canBuffer = animator.GetBool("canBuffer");
         isGrounded = controller.isGrounded;
         isInAir = !controller.isGrounded;
         inputHandler.TickInput(delta);
@@ -49,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         //Un possibile metodo per resettare i pulsanti dopo l'update
         inputHandler.interactionFlag = false;
         inputHandler.attackFlag = false;
+        inputHandler.rollFlag = false;
     }
 
 }
