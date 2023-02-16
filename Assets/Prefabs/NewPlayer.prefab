@@ -363,6 +363,8 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   damage: 1
+  interactionCollider: {x: 0, y: 0, z: 0}
+  hitBox: {x: 0, y: 0, z: 0}
   isPlayer: 1
   layerMask:
     serializedVersion: 2
@@ -779,6 +781,7 @@ MonoBehaviour:
   interactionFlag: 0
   attackFlag: 0
   comboFlag: 0
+  canBuffer: 0
   isInteracting: 0
   inputDecoder: {x: 0, y: 0}
 --- !u!114 &1028291192019329798
@@ -1319,6 +1322,8 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   damage: 1
+  interactionCollider: {x: 0, y: 0, z: 0}
+  hitBox: {x: 0, y: 0, z: 0}
   isPlayer: 1
   layerMask:
     serializedVersion: 2

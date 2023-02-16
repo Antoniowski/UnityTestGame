@@ -11,8 +11,10 @@ public class PlayerManager : MonoBehaviour
     NewAnimationHandler animationHandler;
     CharacterController controller;
     PlayerStats playerStats;
+    PlayerMovementHandler playerMovementHandler;
 
-    [Header("Flags")]    
+    [Header("Flags")]   
+    private float distToGround; 
     public bool isGrounded;
     public bool isInAir;
     public bool canDoCombo;
@@ -26,9 +28,12 @@ public class PlayerManager : MonoBehaviour
         controller = GetComponent<CharacterController>();
         inventory = GetComponent<PlayerInventoryHandler>();
         animationHandler = GetComponent<NewAnimationHandler>();
+        playerMovementHandler = GetComponent<PlayerMovementHandler>();
         
         playerStats = GetComponent<PlayerStats>();
         playerStats.Init(10);
+
+        distToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
     }
 
     // Update is called once per frame
@@ -38,12 +43,14 @@ public class PlayerManager : MonoBehaviour
         inputHandler.isInteracting = animator.GetBool("isInteracting");
         canDoCombo = animator.GetBool("canDoCombo");
         inputHandler.canBuffer = animator.GetBool("canBuffer");
-        isGrounded = controller.isGrounded;
-        isInAir = !controller.isGrounded;
         inputHandler.TickInput(delta);
         if(!inputHandler.isInteracting) inventory.WeaponInteractionHandle(delta);
     }
 
+    void FixedUpdate()
+    {
+        isGrounded = IsGroundedCheck();
+    }
 
     void LateUpdate()
     {
@@ -51,6 +58,11 @@ public class PlayerManager : MonoBehaviour
         inputHandler.interactionFlag = false;
         inputHandler.attackFlag = false;
         inputHandler.rollFlag = false;
+    }
+
+    private bool IsGroundedCheck()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, distToGround+0.1f);
     }
 
 }
