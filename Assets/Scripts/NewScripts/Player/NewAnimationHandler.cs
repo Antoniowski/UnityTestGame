@@ -81,4 +81,14 @@ public class NewAnimationHandler : MonoBehaviour
     {
         animator.SetBool("canDoCombo", false);
     }
+
+    public void EnableBuffer()
+    {
+        animator.SetBool("canBuffer", true);
+    }
+
+    public void DisableBuffer()
+    {
+        animator.SetBool("canBuffer", false);
+    }
 }
