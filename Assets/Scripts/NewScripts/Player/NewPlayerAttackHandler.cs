@@ -37,22 +37,49 @@ public class NewPlayerAttackHandler : MonoBehaviour
         
         animationHandler.animator.SetBool("canDoCombo", false);
 
-        if(lastAttack == "PunchRight")
-        {
-            animationHandler.PlayAnimationTarget("PunchLeft", true);
-            lastAttack = "PunchLeft";
-            return;
-        }
-            
-        
-        if(lastAttack == "PunchLeft")
-        {
-            animationHandler.PlayAnimationTarget("PunchRight", true);
-            lastAttack = "PunchRight"; 
-            return;
-        }
-            
 
+        if(!inventory.isEquipped)
+        {
+            if(lastAttack == "PunchRight")
+            {
+                animationHandler.PlayAnimationTarget("PunchLeft", true);
+                lastAttack = "PunchLeft";
+                return;
+            }
+                
+            
+            if(lastAttack == "PunchLeft")
+            {
+                animationHandler.PlayAnimationTarget("PunchRight", true);
+                lastAttack = "PunchRight"; 
+                return;
+            }
+        }
+
+        if(inventory.isEquipped)
+        {            
+            if(lastAttack == inventory.rightHandWeapon.weaponAnimation)
+            {
+                if(inventory.rightHandWeapon.weaponAnimation02 == "")
+                    return;
+                animationHandler.PlayAnimationTarget(inventory.rightHandWeapon.weaponAnimation02, true);
+                lastAttack = inventory.rightHandWeapon.weaponAnimation02;
+                return;
+            }
+
+            if(lastAttack == inventory.rightHandWeapon.weaponAnimation02)
+            {
+                if(inventory.rightHandWeapon.weaponAnimation03 == "")
+                    return;
+
+                animationHandler.PlayAnimationTarget(inventory.rightHandWeapon.weaponAnimation03, true);
+                lastAttack = null;
+                return;
+            }
+
+
+               
+        }
     }
 
     public void EnablePunchCollider(string punch)

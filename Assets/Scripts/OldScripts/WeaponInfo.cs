@@ -18,6 +18,8 @@ public class WeaponInfo : MonoBehaviour
 
 
     public string weaponAnimation;
+    public string weaponAnimation02;
+    public string weaponAnimation03;
     public string weaponIdleAnimation;
 
 

@@ -166,13 +166,23 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if(bufferedAction.action == null)
             return;
-
+        bufferedAction.action = null;
+        
         if(bufferedAction.action == "dodge")
         {
-            bufferedAction.action = null;
             StartCoroutine(movementHandler.RollAction(bufferedAction.direction));
+            return;
         }
-            
+
+        if(bufferedAction.action == "attack01")
+        {
+            return;
+        }
+
+        if(bufferedAction.action == "attack02")
+        {
+            return;
+        }   
             
     }
 }
