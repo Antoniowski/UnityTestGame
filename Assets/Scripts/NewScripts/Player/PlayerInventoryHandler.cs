@@ -64,6 +64,8 @@ public class PlayerInventoryHandler : MonoBehaviour
         weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-75));
         weapon.transform.localPosition = new Vector3(0,0,-1f);
         equippedWeapon = weapon.name;
+        animationHandler.animator.CrossFade(weapon.GetComponent<WeaponInfo>().weaponIdleAnimation, 0.2f);
+        animationHandler.animator.CrossFade("CombatIdle", 0.2f);
 
         isEquipped = true;
         rightHandWeapon = weapon.GetComponent<WeaponInfo>();
