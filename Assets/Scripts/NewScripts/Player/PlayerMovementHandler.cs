@@ -87,7 +87,7 @@ public class PlayerMovementHandler : MonoBehaviour
     
     public IEnumerator RollAction(){
         animatorHandler.PlayAnimationTarget("RollForward", true);
-        float timer = 1f; //DURATA ANIMAZIONE
+        float timer = 0.8f; //DURATA ANIMAZIONE
         float rollTime = 0f;
         float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
 
