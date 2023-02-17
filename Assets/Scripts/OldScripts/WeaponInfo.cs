@@ -18,6 +18,7 @@ public class WeaponInfo : MonoBehaviour
 
 
     public string weaponAnimation;
+    public string weaponIdleAnimation;
 
 
     // Start is called before the first frame update
