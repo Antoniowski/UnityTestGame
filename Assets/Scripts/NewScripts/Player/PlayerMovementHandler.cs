@@ -87,7 +87,7 @@ public class PlayerMovementHandler : MonoBehaviour
     
     public IEnumerator RollAction(){
         animatorHandler.PlayAnimationTarget("RollForward", true);
-        float timer = 0.8f; //DURATA ANIMAZIONE
+        float timer = 0.6f; //DURATA POCO PIU PICCOLA DELL'ANIMAZIONE ANIMAZIONE
         float rollTime = 0f;
         float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
 
@@ -109,14 +109,14 @@ public class PlayerMovementHandler : MonoBehaviour
 
     public IEnumerator RollAction(Vector3 newDir){
         animatorHandler.PlayAnimationTarget("RollForward", true);
-        float timer = 1f; //DURATA ANIMAZIONE
+        float timer = 0.6f; //DURATA ANIMAZIONE
         float rollTime = 0f;
         float rollSpeed = ROLL_SPEED_CURVE.Evaluate(rollTime);
 
         while(timer > 0){
             //Direzione Dodge
             Quaternion toRotation = Quaternion.LookRotation(new Vector3(newDir.x, 0, newDir.z), Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, ROTATION_SPEED*Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.5f);
 
             timer -= Time.deltaTime;
             rollTime += Time.deltaTime;

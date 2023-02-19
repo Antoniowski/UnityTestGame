@@ -48,7 +48,7 @@ ModelImporter:
       name: RollForward
       takeName: human_male_roll_01
       internalID: 0
-      firstFrame: 2
+      firstFrame: 7
       lastFrame: 37.9
       wrapMode: 0
       orientationOffsetY: 0
@@ -82,8 +82,8 @@ ModelImporter:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.025418624
-            value: 0.99838257
+            time: 0.060086593
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 0

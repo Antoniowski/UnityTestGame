@@ -370,6 +370,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 119
   weaponAnimation: 
+  weaponAnimation02: 
+  weaponAnimation03: 
+  weaponIdleAnimation: 
 --- !u!1 &1294853470998485562
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,8 +657,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1.3376465
+      time: -0.0009918213
+      value: 4.151367
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -663,17 +666,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.1616134
-      value: 3.536189
-      inSlope: 45.699158
-      outSlope: 45.699158
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.20671725
-    - serializedVersion: 3
-      time: 0.3129158
-      value: 9.973319
+      time: 0.060726166
+      value: 9.468974
       inSlope: 0.92877436
       outSlope: 0.92877436
       tangentMode: 0
@@ -681,17 +675,26 @@ MonoBehaviour:
       inWeight: 0.7063829
       outWeight: 0.020055078
     - serializedVersion: 3
-      time: 0.67400694
-      value: 2.3961732
-      inSlope: -11.666336
-      outSlope: -11.666336
+      time: 0.31877705
+      value: 8.613123
+      inSlope: -11.136183
+      outSlope: -11.136183
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.08801061
+      outWeight: 0.21172683
     - serializedVersion: 3
-      time: 1.28883
-      value: -0.02937708
+      time: 0.53404444
+      value: 4.557459
+      inSlope: -14.806725
+      outSlope: -14.806725
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06719242
+    - serializedVersion: 3
+      time: 0.9969599
+      value: 1.9711112
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1329,6 +1332,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 119
   weaponAnimation: 
+  weaponAnimation02: 
+  weaponAnimation03: 
+  weaponIdleAnimation: 
 --- !u!1 &4443883874968199867
 GameObject:
   m_ObjectHideFlags: 0
