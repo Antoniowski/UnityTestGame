@@ -19,6 +19,10 @@ public class NewPlayerAttackHandler : MonoBehaviour
 
     public void HandleAttack()
     {
+        //Quaternion toRotation = Quaternion.LookRotation(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, transform.position.y, Input.mousePosition.z)), Vector3.up);
+        Debug.DrawLine(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 1f);
+
         if(!inventory.isEquipped){
             animationHandler.PlayAnimationTarget("PunchRight", true);
             lastAttack = "PunchRight";
