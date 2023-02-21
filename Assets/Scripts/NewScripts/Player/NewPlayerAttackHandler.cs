@@ -9,6 +9,7 @@ public class NewPlayerAttackHandler : MonoBehaviour
     PlayerInventoryHandler inventory;
 
     private string lastAttack;
+    public int hitCounter; 
 
     void Start()
     {
@@ -19,10 +20,7 @@ public class NewPlayerAttackHandler : MonoBehaviour
 
     public void HandleAttack()
     {
-        //Quaternion toRotation = Quaternion.LookRotation(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, transform.position.y, Input.mousePosition.z)), Vector3.up);
-        Debug.DrawLine(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 1f);
-
+        animationHandler.animator.SetInteger("hitCounter", 1);
         if(!inventory.isEquipped){
             animationHandler.PlayAnimationTarget("PunchRight", true);
             lastAttack = "PunchRight";
@@ -38,12 +36,17 @@ public class NewPlayerAttackHandler : MonoBehaviour
     {
         if(!inputHandler.comboFlag)
             return;
-        
-        animationHandler.animator.SetBool("canDoCombo", false);
+            
+        Combo();
+    }
 
+    public void Combo()
+    {
+        animationHandler.animator.SetBool("canDoCombo", false);
 
         if(!inventory.isEquipped)
         {
+            animationHandler.animator.SetInteger("hitCounter", 2);
             if(lastAttack == "PunchRight")
             {
                 animationHandler.PlayAnimationTarget("PunchLeft", true);
@@ -66,6 +69,7 @@ public class NewPlayerAttackHandler : MonoBehaviour
             {
                 if(inventory.rightHandWeapon.weaponAnimation02 == "")
                     return;
+                animationHandler.animator.SetInteger("hitCounter", 2);
                 animationHandler.PlayAnimationTarget(inventory.rightHandWeapon.weaponAnimation02, true);
                 lastAttack = inventory.rightHandWeapon.weaponAnimation02;
                 return;
@@ -75,7 +79,7 @@ public class NewPlayerAttackHandler : MonoBehaviour
             {
                 if(inventory.rightHandWeapon.weaponAnimation03 == "")
                     return;
-
+                animationHandler.animator.SetInteger("hitCounter", 3);
                 animationHandler.PlayAnimationTarget(inventory.rightHandWeapon.weaponAnimation03, true);
                 lastAttack = null;
                 return;
@@ -123,7 +127,6 @@ public class NewPlayerAttackHandler : MonoBehaviour
             weapon.GetComponent<BoxCollider>().enabled = true;
         }
     }
-
 
     public void DisableHitCollider()
     {

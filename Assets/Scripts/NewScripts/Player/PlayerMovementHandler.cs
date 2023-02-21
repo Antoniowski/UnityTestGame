@@ -17,6 +17,8 @@ public class PlayerMovementHandler : MonoBehaviour
     //CONSTANTS
     private const float ACCELERATION = 50f;
     private const float MAX_SPEED = 5f;
+    //[SerializeField] private AnimationCurve SPEED_CURVE;
+    //private float movementTimer;
     private const float FRICTION = 20f;
     private const float ROTATION_SPEED = 15f;
     private const float JUMP_POWER = 10f;
@@ -61,12 +63,15 @@ public class PlayerMovementHandler : MonoBehaviour
     void MovePlayer(float delta){
         if(inputHandler.horizontal != 0 || inputHandler.vertical != 0)
         {
+            //movementTimer += delta;
+            //velocity =  inputHandler.runFlag ? new Vector2(inputHandler.horizontal, inputHandler.vertical) * SPEED_CURVE.Evaluate(movementTimer)*2 : new Vector2(inputHandler.horizontal, inputHandler.vertical) * SPEED_CURVE.Evaluate(movementTimer) ;
             velocity += inputHandler.runFlag ? new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*2f*delta : new Vector2(inputHandler.horizontal, inputHandler.vertical)*ACCELERATION*delta;
             velocity = inputHandler.runFlag ? Vector2.ClampMagnitude(velocity, MAX_SPEED*1.5f) : Vector2.ClampMagnitude(velocity, MAX_SPEED);
             HandlePlayerOrientation(delta);
         }
         else
         {
+            //movementTimer = 0;
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, FRICTION);
         }
 

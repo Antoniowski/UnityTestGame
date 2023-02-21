@@ -229,6 +229,34 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Mouse"",
+            ""id"": ""f4237cc2-82ca-4280-9343-119ea377d894"",
+            ""actions"": [
+                {
+                    ""name"": ""Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""39d791f4-8dec-4f13-bec9-26c5e4cb7c20"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4524546b-74a6-4cee-a7d5-e25937c6b4aa"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -240,6 +268,9 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         m_CharacterInputController_Dodge = m_CharacterInputController.FindAction("Dodge", throwIfNotFound: true);
         m_CharacterInputController_Interact = m_CharacterInputController.FindAction("Interact", throwIfNotFound: true);
         m_CharacterInputController_Attack = m_CharacterInputController.FindAction("Attack", throwIfNotFound: true);
+        // Mouse
+        m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
+        m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -360,6 +391,39 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         }
     }
     public CharacterInputControllerActions @CharacterInputController => new CharacterInputControllerActions(this);
+
+    // Mouse
+    private readonly InputActionMap m_Mouse;
+    private IMouseActions m_MouseActionsCallbackInterface;
+    private readonly InputAction m_Mouse_Position;
+    public struct MouseActions
+    {
+        private @PlayerInputController m_Wrapper;
+        public MouseActions(@PlayerInputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Position => m_Wrapper.m_Mouse_Position;
+        public InputActionMap Get() { return m_Wrapper.m_Mouse; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MouseActions set) { return set.Get(); }
+        public void SetCallbacks(IMouseActions instance)
+        {
+            if (m_Wrapper.m_MouseActionsCallbackInterface != null)
+            {
+                @Position.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnPosition;
+                @Position.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnPosition;
+                @Position.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnPosition;
+            }
+            m_Wrapper.m_MouseActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Position.started += instance.OnPosition;
+                @Position.performed += instance.OnPosition;
+                @Position.canceled += instance.OnPosition;
+            }
+        }
+    }
+    public MouseActions @Mouse => new MouseActions(this);
     public interface ICharacterInputControllerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -367,5 +431,9 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         void OnDodge(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+    }
+    public interface IMouseActions
+    {
+        void OnPosition(InputAction.CallbackContext context);
     }
 }

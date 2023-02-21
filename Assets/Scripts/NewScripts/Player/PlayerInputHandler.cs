@@ -16,6 +16,8 @@ public class PlayerInputHandler : MonoBehaviour
     public float vertical;
     private Vector3 adaptedInput;
     public float inputMagnitude;
+
+    public Vector2 mousePosition;
     
     #region FLAGS
     //flag per indicare la pressione di un pulsante o un interazione in corso
@@ -28,7 +30,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     //VARIABILE PATATERN
     public bool isInteracting; //Usata per impedire certi input
-
 
     //BUFFER
     public (string action, Vector3 direction) bufferedAction = (null, Vector3.zero);
@@ -53,6 +54,7 @@ public class PlayerInputHandler : MonoBehaviour
             SetupRollInput();
             SetInteractInput();
             SetAttackInput();
+            SetupMouse();
         }
 
         inputController.Enable();
@@ -95,6 +97,11 @@ public class PlayerInputHandler : MonoBehaviour
     {
         inputController.CharacterInputController.Attack.started += inputController => attackFlag = inputController.ReadValueAsButton();
         inputController.CharacterInputController.Attack.canceled += inputController => attackFlag = inputController.ReadValueAsButton();
+    }
+
+    void SetupMouse()
+    {
+        inputController.Mouse.Position.performed += inputController => mousePosition = inputController.ReadValue<Vector2>();
     }
 
     private void AdaptInputDirection()
@@ -150,11 +157,32 @@ public class PlayerInputHandler : MonoBehaviour
         if(!attackFlag)
             return;
 
+        //Se l'animazione non è nella fase finale e bisogna bufferare o si puo attaccare
         if(!manager.canDoCombo)
         {
-            if(!isInteracting) attackHandler.HandleAttack();
+            //Se impegnato
+            if(isInteracting)
+            {
+                if(!canBuffer)
+                    return;
+                
+                switch(attackHandler.hitCounter)
+                {
+                    case 0:
+                        bufferedAction.action = "attack01";
+                        break;
+                    case 1:
+                        bufferedAction.action = "attack02";
+                        break;
+                    default:
+                        break;
+                }
+                return;
+            }
+            
+            attackHandler.HandleAttack();
             return;
-        }       
+        }
         
         comboFlag = true;
         attackHandler.HandleCombo();
@@ -176,11 +204,15 @@ public class PlayerInputHandler : MonoBehaviour
 
         if(bufferedAction.action == "attack01")
         {
+            attackHandler.HandleAttack();
+            bufferedAction.action = null;
             return;
         }
 
         if(bufferedAction.action == "attack02")
         {
+            attackHandler.Combo();
+            bufferedAction.action = null;
             return;
         }   
             

@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     CharacterController controller;
     PlayerStats playerStats;
     PlayerMovementHandler playerMovementHandler;
+    NewPlayerAttackHandler attackHandler;
 
     [Header("Flags")]   
     private float distToGround; 
@@ -29,7 +30,8 @@ public class PlayerManager : MonoBehaviour
         inventory = GetComponent<PlayerInventoryHandler>();
         animationHandler = GetComponent<NewAnimationHandler>();
         playerMovementHandler = GetComponent<PlayerMovementHandler>();
-        
+        attackHandler = GetComponent<NewPlayerAttackHandler>();
+
         playerStats = GetComponent<PlayerStats>();
         playerStats.Init(10);
 
@@ -43,6 +45,7 @@ public class PlayerManager : MonoBehaviour
         inputHandler.isInteracting = animator.GetBool("isInteracting");
         canDoCombo = animator.GetBool("canDoCombo");
         inputHandler.canBuffer = animator.GetBool("canBuffer");
+        attackHandler.hitCounter = animator.GetInteger("hitCounter");
         inputHandler.TickInput(delta);
         if(!inputHandler.isInteracting) inventory.WeaponInteractionHandle(delta);
     }

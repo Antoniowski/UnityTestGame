@@ -19,7 +19,7 @@ public class CameraScript : MonoBehaviour
         //Set camera on the player using spheric coordinates
         SetAndHoldCameraPosition();
         //Rotate to 45 degrees
-        transform.rotation = Quaternion.Euler(new Vector3(45, 45, 0));
+        transform.rotation = Quaternion.Euler(new Vector3(fi, 45, 0));
     }
 
 

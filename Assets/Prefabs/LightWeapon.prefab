@@ -168,4 +168,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   weaponAnimation: MeleeAttack_OneHanded
+  weaponAnimation02: MeleeAttack_TwoHanded
+  weaponAnimation03: 
   weaponIdleAnimation: SwordIdle
