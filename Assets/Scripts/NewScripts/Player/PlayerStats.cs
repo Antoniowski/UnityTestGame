@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
 
     PlayerInputHandler inputHandler;
     NewAnimationHandler animationHandler;
+    PlayerAudioHandler audioHandler;
 
     public int currentHealth;
     private int maxHealth;
@@ -16,6 +17,7 @@ public class PlayerStats : MonoBehaviour
     {
         animationHandler = GetComponent<NewAnimationHandler>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        audioHandler = GetComponent<PlayerAudioHandler>();
     }
 
     public void Init(int maxHealth)
@@ -42,7 +44,11 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(!inputHandler.isInteracting) animationHandler.PlayAnimationTarget("GetHit", true);
+        if(!inputHandler.isInteracting)
+        {
+            animationHandler.PlayAnimationTarget("GetHit", true);
+            audioHandler.PlayTargetSoundAtPoint("GetHitPunch", transform.position);
+        }
         currentHealth = currentHealth - damage;
 
         if(currentHealth <= 0)

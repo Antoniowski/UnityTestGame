@@ -10,6 +10,9 @@ public class EnemyStats : MonoBehaviour
     public int currentHealth;
     private int maxHealth;
 
+    [SerializeField]
+    private AudioClip getHitClip;
+
     
     void Start()
     {
@@ -42,7 +45,13 @@ public class EnemyStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(!animationHandler.animator.GetBool("isInteracting")) animationHandler.PlayAnimationTarget("GetHit", true);
+        if(currentHealth <= 0)
+            return;
+
+        if(!animationHandler.animator.GetBool("isInteracting"))
+            animationHandler.PlayAnimationTarget("GetHit", true);
+            
+        AudioSource.PlayClipAtPoint(getHitClip, transform.position);
         currentHealth = currentHealth - damage;
 
         if(currentHealth <= 0)
@@ -58,6 +67,7 @@ public class EnemyStats : MonoBehaviour
     {
         animationHandler.PlayAnimationTarget("Death", true);
         //INSERIRE COSA DEVE FARE QUANDO MUORE
+        GetComponent<BoxCollider>().enabled = false;
     }
 
 }

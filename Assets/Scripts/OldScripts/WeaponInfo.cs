@@ -22,6 +22,8 @@ public class WeaponInfo : MonoBehaviour
     public string weaponAnimation03;
     public string weaponIdleAnimation;
 
+    [SerializeField] private ParticleSystem hitEffect;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,6 @@ public class WeaponInfo : MonoBehaviour
         {
             GetComponent<BoxCollider>().size = transform.lossyScale;
         }catch{
-            print("Il collider non esiste");
         }
     }
 
@@ -50,7 +51,8 @@ public class WeaponInfo : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            other.gameObject.GetComponent<EnemyStats>().TakeDamage(damage);
+            if(hitEffect != null) Instantiate(hitEffect, other.ClosestPoint(transform.position), other.gameObject.transform.rotation);
+            other.gameObject.GetComponent<EnemyStats>().TakeDamage(damage);            
         }
     }
 }

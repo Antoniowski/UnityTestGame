@@ -10,6 +10,9 @@ public class AudioManager : MonoBehaviour
     //Array da suonare
     public Sound[] suonds;
 
+    public float musicVolume;
+    public float SFXVolume;
+
     void Awake()
     {
         if(instance != null)

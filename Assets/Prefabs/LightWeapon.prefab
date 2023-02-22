@@ -171,3 +171,4 @@ MonoBehaviour:
   weaponAnimation02: MeleeAttack_TwoHanded
   weaponAnimation03: 
   weaponIdleAnimation: SwordIdle
+  hitEffect: {fileID: 7226583673155636403, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
