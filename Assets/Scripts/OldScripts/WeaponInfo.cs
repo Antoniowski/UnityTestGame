@@ -51,7 +51,8 @@ public class WeaponInfo : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            if(hitEffect != null) Instantiate(hitEffect, other.ClosestPoint(transform.position), other.gameObject.transform.rotation);
+            Vector3 enemyPos = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y + other.bounds.extents.y ,other.gameObject.transform.position.z);
+            if(hitEffect != null) Instantiate(hitEffect, enemyPos, other.gameObject.transform.rotation);
             other.gameObject.GetComponent<EnemyStats>().TakeDamage(damage);            
         }
     }
