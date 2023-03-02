@@ -8,9 +8,10 @@ public class PlayerStats : MonoBehaviour
     PlayerInputHandler inputHandler;
     NewAnimationHandler animationHandler;
     PlayerAudioHandler audioHandler;
+    public HealthBar healthBar;
 
     public int currentHealth;
-    private int maxHealth;
+    private int maxHealth = 10;
 
     
     void Start()
@@ -18,12 +19,15 @@ public class PlayerStats : MonoBehaviour
         animationHandler = GetComponent<NewAnimationHandler>();
         inputHandler = GetComponent<PlayerInputHandler>();
         audioHandler = GetComponent<PlayerAudioHandler>();
+        Init(maxHealth);
     }
 
     public void Init(int maxHealth)
     {
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
+        healthBar.SetToMaxHealth(maxHealth);
+
     }
     public void SetHealth(int currentHealth, int maxHealth)
     {
@@ -50,6 +54,8 @@ public class PlayerStats : MonoBehaviour
             audioHandler.PlayTargetSoundAtPoint("GetHitPunch", transform.position);
         }
         currentHealth = currentHealth - damage;
+        healthBar.newValue = currentHealth;
+        healthBar.updateValue = true;
 
         if(currentHealth <= 0)
         {

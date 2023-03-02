@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 8772864178251266887}
   m_Layer: 0
   m_Name: AudioManager
-  m_TagString: Untagged
+  m_TagString: AudioManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,3 +96,5 @@ MonoBehaviour:
     loop: 1
     clip: {fileID: 8300000, guid: 299c3f459b6adc84f8dd2eb27dd3f8eb, type: 3}
     source: {fileID: 0}
+  musicVolume: 0
+  SFXVolume: 0
