@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/EnemyScene.unity
+    guid: 47cbd1d00430fa044b9d3d141aff32da
+  - enabled: 1
+    path: Assets/Scenes/InteractionScene.unity
+    guid: 6401de56b57155b44925a4a931255238
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 17fc023663abbdf468310dcef649dd33
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c92d42c3521d257478918a34ae0ebf0f
+  - enabled: 1
+    path: Assets/Scenes/MeshTest.unity
+    guid: 096e77aa7869cc945b23dd4a721441ad
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

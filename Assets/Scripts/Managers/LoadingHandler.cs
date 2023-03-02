@@ -15,6 +15,11 @@ public static class LoadingHandler
     public enum Scene
     {
         LoadingScene,
+        EnemyScene,
+        InteractionScene,
+        MainMenu,
+        Mehtest,
+        SampleScene
     };
 
     //Le action sono necessarie per la realizzazione di callback
